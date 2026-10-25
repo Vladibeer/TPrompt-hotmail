@@ -2120,7 +2120,17 @@ function pvLoop(now){
   const target=Math.min(1,Math.max(0,pvBase.frac+pvBase.fr*Math.max(0,Date.now()-pvBase.ts)/1000));
   /* малка разлика се изглажда, а голям скок (отметка, начало) става веднага, както във втория прозорец */
   const gap=Math.abs(target-pvDisp)*pvMax;
-  if(gap>60)pvDisp=target;else if(gap<.05&&pvBase.fr<=0)pvDisp=target;else pvDisp+=(target-pvDisp)*(1-Math.exp(-dt*(now<pvEaseUntil?5:14)));
+  if(gap>60)pvDisp=target;
+  else if(pvBase.fr<=0){
+    /* на пауза: бързо доближаване до точната позиция */
+    if(gap<.05)pvDisp=target;else pvDisp+=(target-pvDisp)*(1-Math.exp(-dt*14));
+  }else{
+    /* при движение превюто върви със скоростта на втория прозорец и я променя най-много с 20%, за да догони разликата.
+       Преди то се дърпаше към целта с фиксирана скорост и при потвърждението на старта сякаш забавяше, после тръгваше. */
+    const step=pvBase.fr*dt,err=target-pvDisp-step,lim=step*.2+.00002;
+    pvDisp+=step+Math.max(-lim,Math.min(lim,err));
+  }
+  if(pvDisp<0)pvDisp=0;else if(pvDisp>1)pvDisp=1;
   const y=Math.round(pvDisp*pvMax*20)/20;
   if(y!==pvShown){pvShown=y;pvScroller.style.transform=`translate3d(0,${-y}px,0)`}
   if(pvBase.fr>0||Math.abs(target-pvDisp)*pvMax>=.05)pvRaf=requestAnimationFrame(pvLoop);
