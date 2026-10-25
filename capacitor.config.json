@@ -1,0 +1,16 @@
+{
+  "appId": "com.tprompt.app",
+  "appName": "TPrompt",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true
+  },
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}
