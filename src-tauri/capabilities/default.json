@@ -1,0 +1,6 @@
+{
+  "identifier": "default",
+  "description": "Основни права за прозорците на TPrompt",
+  "windows": ["main", "reader"],
+  "permissions": ["core:default"]
+}
