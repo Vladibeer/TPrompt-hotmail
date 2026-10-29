@@ -85,6 +85,12 @@ fn tx_clear(state: State<'_, Remote>) {
     state.clear_tx();
 }
 
+/// Компютърът моли приложението на телефона да започне да чете (view = true) или да спре.
+#[tauri::command]
+fn remote_want(state: State<'_, Remote>, view: bool) {
+    state.set_want(view);
+}
+
 #[tauri::command]
 fn monitor_count(app: AppHandle) -> usize {
     app.available_monitors().map(|m| m.len()).unwrap_or(1)
@@ -411,6 +417,7 @@ fn main() {
             rx_pump,
             tx_push,
             tx_clear,
+            remote_want,
             monitor_count,
             reader_open,
             close_reader,

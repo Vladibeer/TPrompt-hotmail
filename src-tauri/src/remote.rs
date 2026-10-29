@@ -44,6 +44,9 @@ struct Inner {
     tx_bytes: usize,
     seen_web: Option<Instant>,
     seen_rx: Option<Instant>,
+    /// Заявка от компютъра към приложението: "view" = започни да четеш на този екран. Брояч, за да се вижда нова заявка.
+    want: String,
+    want_seq: u64,
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -131,6 +134,8 @@ impl Remote {
                 tx_bytes: 0,
                 seen_web: None,
                 seen_rx: None,
+                want: String::new(),
+                want_seq: 0,
             }),
             token: Mutex::new(random_token()),
             running: AtomicBool::new(false),
@@ -162,6 +167,7 @@ impl Remote {
         g.rx_state.clear();
         g.tx.clear();
         g.tx_bytes = 0;
+        g.want.clear();
         g.seen_web = None;
         g.seen_rx = None;
     }
@@ -180,6 +186,17 @@ impl Remote {
                 None => break,
             }
         }
+    }
+
+    /// Компютърът моли приложението да започне (view = true) или да спре да чете на своя екран.
+    /// Приложението го вижда със следващата си заявка за състояние.
+    pub fn set_want(&self, view: bool) {
+        if !self.is_running() {
+            return;
+        }
+        let mut g = self.inner.lock().unwrap();
+        g.want = if view { "view".to_string() } else { String::new() };
+        g.want_seq += 1;
     }
 
     pub fn clear_tx(&self) {
@@ -272,6 +289,7 @@ impl Remote {
         g.rx_state.clear();
         g.tx.clear();
         g.tx_bytes = 0;
+        g.want.clear();
         g.seen_web = None;
         g.seen_rx = None;
     }
@@ -412,7 +430,14 @@ impl Remote {
                     } else {
                         String::new()
                     };
-                    format!("{{\"alive\":true,\"now\":{},\"st\":{},\"tx\":[{}]}}", now_ms(), st, tx)
+                    format!(
+                        "{{\"alive\":true,\"now\":{},\"st\":{},\"tx\":[{}],\"want\":\"{}\",\"wseq\":{}}}",
+                        now_ms(),
+                        st,
+                        tx,
+                        g.want,
+                        g.want_seq
+                    )
                 };
                 respond(&mut stream, "200 OK", "application/json; charset=utf-8", out.as_bytes());
             }
