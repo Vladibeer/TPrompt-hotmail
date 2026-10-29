@@ -44,9 +44,16 @@ kbd{font:600 11px Manrope,sans-serif;padding:2px 6px;border-radius:3px;border:1p
 .btn{height:36px;padding:0 13px;border-radius:4px;border:1px solid var(--line);background:var(--panel2);display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px;transition:background .15s,border-color .15s}
 .btn:hover{background:var(--hover);border-color:var(--acc)}
 .btn.primary{background:var(--acc);border-color:transparent;color:var(--onacc);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--acc) 80%,transparent)}
-#openWrap{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px}
+#openWrap{display:inline-grid;grid-auto-flow:column;grid-auto-columns:auto;gap:8px}
+body:not(.tauri) #bDev{display:none}
 #openWrap .btn{justify-content:center;white-space:nowrap}
-#bWin.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+#bDev.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+#runMenu{left:auto;right:0;min-width:250px}
+#runMenu small{margin-top:1px}
+.menu #bWin.on::after,.menu #bRemote.on::after,.menu #bRemote.warn::after{content:"";width:8px;height:8px;border-radius:50%;margin-left:auto;flex:none;background:var(--acc)}
+.menu #bRemote.on::after{background:var(--teal)}
+.menu #bRemote.warn::after{background:#ffb547}
+#bDev.idle{color:var(--mute)}
 .split{display:flex}
 .split>.btn:first-child{border-radius:4px 0 0 4px}
 .split>.btn:nth-child(2){border-radius:0 4px 4px 0;padding:0 8px;border-left:1px solid rgba(255,255,255,.35)}
@@ -61,6 +68,10 @@ kbd{font:600 11px Manrope,sans-serif;padding:2px 6px;border-radius:3px;border:1p
 .menu button[aria-pressed="true"]{background:var(--hover);font-weight:800}
 .menu button{display:flex;width:100%;align-items:center;gap:10px;padding:9px 10px;background:none;border:0;border-radius:3px;text-align:left;font-weight:600}
 .menu button:hover{background:var(--hover)}
+#fileMenu .t{padding-right:0}
+.menu hr{border:0;border-top:1px solid var(--line);margin:6px 4px}
+.menu button[hidden]{display:none}
+.menu button kbd{margin-left:auto;flex:none;color:var(--mute)}
 .menu small{display:block;color:var(--mute);font-weight:500;font-size:12px}
 
 .fmt{display:flex;align-items:center;gap:4px;padding:8px 16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
@@ -197,41 +208,64 @@ body.nocursor #prompter{cursor:none}
 #dimTop,#pvDimTop{top:0;height:calc(var(--mkY) - var(--mkH) / 2);background:var(--dim)}
 #dimBot,#pvDimBot{top:calc(var(--mkY) + var(--mkH) / 2);bottom:0;background:var(--dim)}
 #band,#pvBand{top:calc(var(--mkY) - var(--mkH) / 2);height:var(--mkH);background:color-mix(in srgb,var(--mk) 12%,transparent)}
-#hud{position:absolute;width:max-content;left:50%;bottom:calc(52px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:4;display:flex;flex-wrap:nowrap;align-items:center;gap:2px;max-width:calc(100% - 16px);overflow-x:auto;padding:4px 6px 24px;border-radius:6px;background:rgba(14,17,40,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);color:#e9ecff;box-shadow:0 10px 30px -10px rgba(0,0,0,.6);transition:opacity .2s,transform .2s;scrollbar-width:none;cursor:default}
+#hud{position:absolute;width:max-content;left:50%;bottom:calc(52px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:4;display:flex;flex-wrap:nowrap;align-items:center;gap:2px;max-width:calc(100% - 16px);overflow-x:auto;padding:4px 6px 24px;border-radius:6px;background:var(--panel);border:1px solid var(--line);color:var(--ink);box-shadow:0 10px 30px -10px rgba(0,0,0,.6);transition:opacity .2s,transform .2s;scrollbar-width:none;cursor:default}
 #hud::-webkit-scrollbar{display:none}
 .hprog{position:absolute;left:10px;right:10px;bottom:0;height:22px;cursor:pointer;touch-action:none}
-.hprog::before{content:"";position:absolute;left:0;right:0;bottom:9px;height:4px;border-radius:2px;background:rgba(255,255,255,.18)}
+.hprog::before{content:"";position:absolute;left:0;right:0;bottom:9px;height:4px;border-radius:2px;background:var(--line)}
 .hprog i{position:absolute;left:0;right:0;bottom:9px;height:4px;border-radius:2px;background:linear-gradient(90deg,#2fe0c0,#7c6cff);transform-origin:left;transform:scaleX(0)}
 #hud.noprog{padding-bottom:4px}
 #hud.noprog .hprog{display:none}
 body.noprog .rprog{display:none!important}
 #hud:not(.open){opacity:0;pointer-events:none;transform:translate(-50%,10px)}
-#hud .ib{width:28px;height:28px;flex:none;color:#e9ecff;border-radius:3px}
+#hud .ib{width:28px;height:28px;flex:none;color:var(--ink);border-radius:3px}
 #hud .ib i{width:15px;height:15px}
-#hud .ib:hover{background:rgba(255,255,255,.14)}
+#hud .ib:hover{background:var(--hover)}
 #hud .ib.on{background:var(--amber);color:#1a1200}
 #hud .play{width:auto;min-width:58px;height:30px;padding:0 8px;gap:5px;border-radius:4px;background:var(--teal);color:#06231d}
 #hud .play:hover{background:#5df0d6}
 #hud .play i{width:16px;height:16px}
-#hud .grpx{display:flex;align-items:center;flex:none;gap:1px;padding:0 5px;border-left:1px solid rgba(255,255,255,.14)}
+#hud .grpx{display:flex;align-items:center;flex:none;gap:1px;padding:0 5px;border-left:1px solid var(--line)}
 #hud .grpx:first-child{border-left:0}
 #hud .grpx>i[data-ic]{width:14px;height:14px}
 #hud .val{min-width:26px;text-align:center;font-weight:800;font-size:12.5px;font-variant-numeric:tabular-nums}
 #hud .meta{min-width:76px;text-align:center;font-weight:700;font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
-#hud .meta small{color:#98a0d4;font-weight:600;font-size:11px;margin-left:4px}
-#hudToggle{position:absolute;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:5;width:36px;height:26px;border-radius:5px;border:1px solid rgba(255,255,255,.14);background:rgba(14,17,40,.45);color:#e9ecff;display:inline-flex;align-items:center;justify-content:center;opacity:.5;transition:opacity .25s}
+#hud .meta small{color:var(--mute);font-weight:600;font-size:11px;margin-left:4px}
+#hudToggle{position:absolute;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:5;width:36px;height:26px;border-radius:5px;border:1px solid var(--line);background:var(--panel);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;opacity:.5;transition:opacity .25s}
 #hudToggle:hover,#hudToggle.active{opacity:1}
 #hudToggle.idle{opacity:0}
 #hudToggle i{width:16px;height:16px;transition:transform .2s}
 #hudToggle.active i{transform:rotate(180deg)}
-body.reading{color-scheme:dark}
-#prompter,#bmPanel,#hud{color-scheme:dark;scrollbar-color:#252a52 transparent}
+#prompter{color-scheme:dark}
+#bmPanel,#hud,body.reading #settings{scrollbar-color:var(--line) transparent}
+/* ---- Контролен панел при четене (Android и Windows) +20%, ред 1 = скорост и размер, ред 2 = в началото, старт, маркер, отметки, настройки ---- */
+.brk,#xExit{display:none}
+body #hud{zoom:1.2;flex-wrap:wrap;justify-content:center;overflow:visible;width:max-content;max-width:calc(100% - 16px)}
+body #hud #hMk,body #hud #hMH,body #hud #hMV,body #hud #hFull,body #hud #hExit,body #hud .grpx.gm,body #hud .grpx.gt{display:none}
+/* бутоните запълват панела: горе скорост и размер (по половина), долу старт, отметки/настройки, в началото (най-вдясно) */
+body #hud{width:calc(100% - 16px);max-width:520px;row-gap:6px}
+body #hud .grpx.g1{display:contents}
+body #hud .grpx.r1{flex:1 1 0;min-width:0;justify-content:space-around;padding:0 4px}
+body #hud .grpx.r1{border-left:0}
+body #hud .grpx.r1+.grpx.r1{border-left:1px solid var(--line)}
+body #hud #hPlay{order:2;flex:2 1 0;width:auto;min-width:0}
+body #hud .grpx.r2{order:3;flex:2 1 0;min-width:0;padding:0}
+body #hud .grpx.r2 .ib{flex:1 1 0;width:auto;min-width:0}
+body #hud #hHome{order:4;flex:1 1 0;width:auto;min-width:0}
+body #hud #hPlay,body #hud #hHome,body #hud .grpx.r2 .ib{height:42px}
+body #hud .grpx{order:2}
+body #hud .grpx.r1{order:0}
+body #hud .brk{display:block;flex:0 0 100%;height:0;order:1}
+body #xExit{display:inline-flex;position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:5;width:48px;height:48px;align-items:center;justify-content:center;border-radius:6px;background:rgba(14,17,40,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);color:#e9ecff;box-shadow:0 10px 30px -10px rgba(0,0,0,.6);transition:opacity .25s,background .15s}
+body #xExit i{width:22px;height:22px}
+body #xExit:active{background:rgba(255,255,255,.14)}
+body #xExit.idle{opacity:0;pointer-events:none}
 #bmPanel::-webkit-scrollbar,body.reading #settings::-webkit-scrollbar{width:10px}
 #bmPanel::-webkit-scrollbar-track,body.reading #settings::-webkit-scrollbar-track{background:transparent}
-#bmPanel::-webkit-scrollbar-thumb,body.reading #settings::-webkit-scrollbar-thumb{background:#252a52;border-radius:3px;border:2px solid transparent;background-clip:padding-box}
-body.reading #settings{--panel:#141936;--panel2:#1b2148;--line:#2b3270;--ink:#e9ecff;--mute:#949bcb;--hover:#252c5c;color-scheme:dark;color:var(--ink);scrollbar-color:#252a52 transparent}
+#bmPanel::-webkit-scrollbar-thumb,body.reading #settings::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px;border:2px solid transparent;background-clip:padding-box}
+body.reading #settings{color:var(--ink)}
 body.reading #settings{position:fixed;top:0;right:0;bottom:0;z-index:60;width:min(350px,92vw);transform:translateX(105%);transition:transform .25s;box-shadow:-24px 0 50px rgba(0,0,0,.5);padding-top:env(safe-area-inset-top,0px)}
 body.reading #settings.open{transform:none}
+body.reading #settings{background:var(--panel);border-left:1px solid var(--line)}
 body.reading #settings .close{display:inline-flex}
 
 #bmSide{display:flex;flex-direction:column;width:var(--bmw,250px);flex:none;overflow:auto;background:var(--panel);border-right:1px solid var(--line);padding:14px 12px}
@@ -253,29 +287,32 @@ body.reading #settings .close{display:inline-flex}
 .bmi:hover{background:var(--hover)}
 .bmi .n{flex:none;min-width:26px;height:26px;padding:0 6px;border-radius:3px;background:var(--acc);color:var(--onacc);font-weight:800;font-size:12.5px;display:inline-flex;align-items:center;justify-content:center}
 .bmi .tt{flex:1;min-width:0;text-align:left;background:none;border:0;padding:7px 0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bmi .go{width:30px;height:30px;flex:none;color:var(--teal)}
-.bmi .go i{width:15px;height:15px}
 .bmi.cur{background:color-mix(in srgb,var(--teal) 20%,transparent)}
 #bmListEdit{gap:6px}
-.bmi.ed{padding:0;gap:0;cursor:default;border:1px solid var(--line);background:var(--panel2);border-radius:5px;overflow:hidden}
+.bmi.ed{display:grid;grid-template-columns:1fr 1fr;padding:0;gap:0;cursor:default;border:1px solid var(--line);background:var(--panel2);border-radius:5px;overflow:hidden}
 .bmi.ed:hover{background:var(--panel2)}
-.bmi.ed .bm-edit{flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:8px;padding:0 8px 0 6px;border:0;background:none;text-align:left;cursor:pointer}
+.bmi.ed button{height:42px;border:0;background:none;display:flex;align-items:center;min-width:0;cursor:pointer}
+.bmi.ed .bm-edit{gap:7px;padding:0 8px 0 6px;text-align:left}
 .bmi.ed .bm-edit:hover{background:var(--hover)}
+.bmi.ed .bm-edit .n{min-width:24px;height:24px;padding:0 5px}
 .bmi.ed .bm-edit .tt{padding:0;pointer-events:none}
-.bmi.ed .bm-edit .pen{flex:none;width:14px;height:14px;display:inline-flex;color:var(--mute);opacity:.7}
+.bmi.ed .bm-edit .pen{flex:none;width:13px;height:13px;display:inline-flex;color:var(--mute);opacity:.75}
 .bmi.ed .bm-edit:hover .pen{opacity:1;color:var(--ink)}
-.bmi.ed .bm-go{flex:none;width:40px;height:36px;display:inline-flex;align-items:center;justify-content:center;border:0;border-left:1px solid var(--line);background:var(--teal);color:#06231d;cursor:pointer;transition:filter .12s}
-.bmi.ed .bm-go:hover{filter:brightness(1.12)}
-.bmi.ed .bm-go svg{width:16px;height:16px}
-.bmi.ed .bm-edit:focus-visible,.bmi.ed .bm-go:focus-visible{outline-offset:-2px}
+/* половината за пускане е като бутоните „Хоризонтално / Вертикално“ в настройките */
+.bmi.ed .bm-go{justify-content:center;gap:6px;border-left:1px solid var(--line);font-weight:800;font-size:12px;letter-spacing:.4px;color:var(--mute)}
+.bmi.ed .bm-go:hover{background:var(--hover);color:var(--ink)}
+.bmi.ed .bm-go .gi{display:inline-flex;width:14px;height:14px;flex:none}
+.bmi.ed .bm-go:hover .gi{color:var(--acc)}
+.bmi.ed .pen svg,.bmi.ed .gi svg{width:100%;height:100%;display:block}
+.bmi.ed button:focus-visible{outline-offset:-2px}
 .bmi.cur .n{background:var(--teal);color:#06231d}
 .bmempty{color:var(--mute);font-size:13px}
-#bmPanel{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(340px,88vw);padding:calc(14px + env(safe-area-inset-top,0px)) 12px 14px;overflow:auto;background:rgba(14,17,40,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#e9ecff;border-right:1px solid rgba(255,255,255,.14);transform:translateX(-105%);transition:transform .25s;cursor:default}
+#bmPanel{position:absolute;left:0;top:0;bottom:0;z-index:5;width:min(340px,88vw);padding:calc(14px + env(safe-area-inset-top,0px)) 12px 14px;overflow:auto;background:var(--panel);color:var(--ink);border-right:1px solid var(--line);transform:translateX(-105%);transition:transform .25s;cursor:default}
 #bmPanel.open{transform:none}
 #bmPanel .bmhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:800;font-size:15px}
-#bmPanel .ib{color:#e9ecff}
-#bmPanel .ib:hover,#bmPanel .bmi:hover{background:rgba(255,255,255,.1)}
-#bmPanel .bmempty{color:#98a0d4}
+#bmPanel .ib{color:var(--ink)}
+#bmPanel .ib:hover,#bmPanel .bmi:hover{background:var(--hover)}
+#bmPanel .bmempty{color:var(--mute)}
 .langwrap{display:flex;align-items:center;gap:7px;color:var(--mute)}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--panel2)}
 .seg button{height:34px;padding:0 11px;border:0;background:none;font-weight:800;font-size:12px;letter-spacing:.4px;color:var(--mute)}
@@ -324,46 +361,38 @@ body.tauri .touch-only{display:none!important}
 #rmCam{position:relative;margin:8px 0;border-radius:6px;overflow:hidden;background:#000;aspect-ratio:4/3;max-height:46vh}
 #rmCam video{width:100%;height:100%;object-fit:cover;display:block}
 .rm-aim{position:absolute;inset:18%;border:3px solid rgba(47,224,192,.9);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.35);pointer-events:none}
-#bRemote.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
-#bRemote.warn{border-color:#ffb547}
 /* ---------- Режим „дистанционно“ на малък екран: превю горе, контроли долу ---------- */
-#rcDock,#rcIdle{display:none}
-#rcIdle{flex:1;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;color:var(--mute)}
-#rcIdle > i{width:46px;height:46px;color:var(--acc)}
-#rcIdle > i svg{width:100%;height:100%}
-#rcIdle b{color:var(--ink);font-size:17px}
-#rcIdle p{margin:0 0 6px;max-width:30ch;line-height:1.45}
+#rcDock{display:none}
 @media (hover:none) and (pointer:coarse){
   #remote .ib{width:44px;height:44px}
   #remote .ib i{width:20px;height:20px}
   #remote .play{height:46px;min-width:76px}
   .rprog{height:26px}.rprog::before,.rprog i{top:11px}
 }
-@media (max-width:400px){#bNew{display:none}}
 #rvBox{position:fixed;inset:0;z-index:300;background:#000}
 #rvBox iframe{width:100%;height:100%;border:0;display:block}
-#rcSend{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
 @media (max-width:900px){
-  /* малък екран + свързано дистанционно: превюто стои горе през цялото време, под него е избраният панел */
+  /* малък екран + свързано дистанционно: горе е избраният панел (редактор, отметки или настройки), долу е превюто, двете са еднакви по размер */
+  body.rc .top{position:relative;z-index:40}   /* менютата от лентата са над панелите */
   body.rc .work{position:relative;overflow:hidden;flex-direction:column}
   body.rc .stagewrap{display:contents}
   body.rc #scrim{display:none!important}
-  body.rc #bmSide,body.rc #settings{position:static;transform:none;width:100%;max-width:none;flex:1 1 0;min-height:0;box-shadow:none;border:0;display:none;overflow:auto;padding-top:10px;order:1}
+  body.rc #bmSide,body.rc #settings{position:static;z-index:auto;transform:none;width:100%;max-width:none;flex:1 1 0;min-height:0;box-shadow:none;border:0;display:none;overflow:auto;padding-top:10px;order:1}
   body.rc[data-rcv=bm] #bmSide{display:flex}
   body.rc[data-rcv=set] #settings{display:block}
   body.rc #bmGrip,body.rc #pvGrip{display:none!important}
   body.rc #editor,body.rc .foot{display:none}
-  body.rc #remote{display:none!important;order:3;margin:8px 10px 0;min-height:0}
-  body.rc.rcLive #remote{display:flex!important;flex:0 0 auto;height:clamp(150px,30vh,280px);margin-bottom:8px}
-  body.rc.rcLive[data-rcv=pv] #remote{flex:1 1 0;height:auto}
-  body.rc[data-rcv=ed] #editor{display:block;order:1;flex:1 1 0;margin:8px 10px 0}
-  body.rc[data-rcv=ed] .foot{display:flex;order:2;padding:4px 14px}
-  body.rc[data-rcv=pv]:not(.rcLive) #rcIdle{display:flex}
-  body.rc .fmt{display:none}
-  body.rc[data-rcv=ed] .fmt{display:flex}
+  body.rc[data-rcv=ed] #editor{display:block;order:1;flex:1 1 0;min-height:0;margin:0 10px}
+  body.rc #remote{display:none!important;order:3;margin:8px 10px;min-height:0}
+  body.rc.rcLive #remote{display:flex!important;flex:1 1 0;height:auto}
+  body.rc .fmt{display:flex}
+  body.rc:not([data-rcv=ed]) .fmt{opacity:.4;pointer-events:none}
   body.rc #modeBanner{display:none}
-  @media (max-height:520px){body.rc.rcLive:not([data-rcv=pv]) #remote{display:none!important}}
-  body.rc .top .brand,body.rc #bNew,body.rc #bBmBtn,body.rc #bSetBtn,body.rc #bWin{display:none!important}
+  @media (max-height:520px){
+    body.rc .work{flex-direction:row}
+    body.rc.rcLive #remote{margin:8px 10px 8px 0}
+  }
+  body.rc #bWin{display:none!important}
   body.rc #rcDock{display:flex}
   #rcDock{flex:none;flex-direction:column;gap:8px;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:1px solid var(--line)}
   #rcDock[hidden]{display:none!important}
@@ -383,11 +412,7 @@ body.tauri .touch-only{display:none!important}
   #rcDock .rbar .rg .ib:active{background:var(--hover)}
   #rcDock .rbar .rg b{flex:1;text-align:center;font-size:17px;font-weight:800;min-width:0;color:var(--ink)}
   body:not(.rcLive) #rcDock .rprog,body:not(.rcLive) #rcDock .rbar{display:none}
-  #rcDock .rctabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-  #rcDock .rctabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:52px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);font-size:11.5px;font-weight:700;color:var(--ink);touch-action:manipulation}
-  #rcDock .rctabs button i{width:21px;height:21px}
-  #rcDock .rctabs button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
-  body.rc #toast{bottom:calc(210px + env(safe-area-inset-bottom,0px))}
+  body.rc #toast{bottom:calc(190px + env(safe-area-inset-bottom,0px))}
 }
 .modal{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.55)}
 .modal[hidden]{display:none}
@@ -404,11 +429,10 @@ body.tauri .touch-only{display:none!important}
 .stagewrap.pvfull #remote{flex:1 1 0;min-height:0}
 .stagewrap.pvfull #pvWrap{flex:1 1 0;min-height:0;height:auto!important}
 .viewtog{gap:8px}
-.viewtog .btn{width:38px;padding:0;justify-content:center;color:var(--mute)}
-.viewtog .btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
-.viewtog .btn[aria-pressed="true"]:hover{filter:brightness(1.1)}
+.viewtog .btn[aria-pressed="true"]{background:var(--hover);border-color:var(--acc)}
 .viewtog .btn:disabled{opacity:.4;cursor:default}
 .viewtog .btn:disabled:hover{background:var(--panel2);border-color:var(--line)}
+@media (min-width:641px){.top .btn{width:132px;padding:0 10px;justify-content:center;white-space:nowrap}.top .btn .t{overflow:hidden;text-overflow:ellipsis}}
 @media (min-width:901px){
   body.hide-bm #bmSide,body.hide-bm #bmGrip,body.hide-set #settings,body.ed-off #editor,body.ed-off #pvGrip{display:none}
 }
@@ -451,13 +475,21 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
   .top{gap:4px}
   .top .grp{gap:4px}
   .top .btn{padding:0 8px}
-  #bStart .t{padding-right:2px}
+  #runMenu{left:auto;right:10px}
   .grp{gap:6px}
   .btn{height:38px;padding:0 10px}
   .btn .t{display:none}
-  #bStart .t,#bRemote .t{display:inline}
+  #bRun .t{display:inline}
   .btn kbd{display:none}
-  #bSave i:last-child{display:none}
+  #bFile i:last-child,#bRun i:last-child{display:none}
+  /* телефон: всички бутони в лентата са с еднаква ширина, иконата е над надписа */
+  .top > .grow{display:none}
+  #openWrap{display:flex}
+  .top > .grp,.top > .btn,.top .grp .menuwrap,.top .grp .btn{flex:1 1 0;min-width:0}
+  .top .btn{width:100%;height:46px;flex-direction:column;justify-content:center;gap:2px;padding:0 4px;font-size:11px}
+  .top .btn .t{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .top .btn i[data-ic]{width:18px;height:18px}
+  .menu{top:70px}
   .top > .langwrap,#bWin,#bInstall,#themeWrap{display:none}
   .fmt{flex-wrap:nowrap;overflow-x:auto;padding:6px 10px;scrollbar-width:none}
   .fmt::-webkit-scrollbar{display:none}
@@ -499,12 +531,13 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
       <img class="logo" src="data:image/png;base64,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" alt="" width="34" height="34">
     </div>
     <div class="grp">
-      <button class="btn" id="bNew" title="Нов празен текст"><i data-ic="filePlus"></i><span class="t">Нов</span></button>
-      <button class="btn" id="bOpen" title="Отвори файл (Ctrl+O)"><i data-ic="folder"></i><span class="t">Отвори</span></button>
       <div class="menuwrap">
-        <button class="btn" id="bSave" title="Запази (Ctrl+S)"><i data-ic="save"></i><span class="t">Запази</span><i data-ic="chev" style="width:14px;height:14px"></i></button>
-        <div class="menu" id="saveMenu" hidden>
-          <button data-save="html"><i data-ic="save"></i><span>Запази като .html<small>Пази форматирането и настройките</small></span></button>
+        <button class="btn" id="bFile" title="Файл" aria-haspopup="true"><i data-ic="folder"></i><span class="t">Файл</span><i data-ic="chev" style="width:14px;height:14px"></i></button>
+        <div class="menu" id="fileMenu" hidden>
+          <button id="miNew" title="Нов празен текст"><i data-ic="filePlus"></i><span>Нов<small>Празен текст</small></span></button>
+          <button id="miOpen" title="Отвори файл (Ctrl+O)"><i data-ic="folder"></i><span>Отвори<small>.html, .txt, .md, .docx, .rtf</small></span><kbd>Ctrl+O</kbd></button>
+          <hr>
+          <button data-save="html" title="Запази (Ctrl+S)"><i data-ic="save"></i><span>Запази<small>Пази форматирането и настройките</small></span><kbd>Ctrl+S</kbd></button>
           <button data-save="txt"><i data-ic="text"></i><span>Запази като .txt<small>Само чист текст</small></span></button>
         </div>
       </div>
@@ -512,16 +545,23 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
     <span class="grow"></span>
     <button class="btn" id="bInstall" data-install hidden title="Инсталирай като приложение"><i data-ic="download"></i><span class="t">Инсталирай</span></button>
     <div class="grp viewtog" id="viewTog" role="group" aria-label="Показване на панели">
-      <button class="btn vt" data-vt="bm" aria-pressed="true" title="Показване/скриване на отметките (B)"><i data-ic="bookmark"></i></button>
-      <button class="btn vt" data-vt="ed" aria-pressed="true" title="Показване/скриване на редактора (когато е отворен втори прозорец)"><i data-ic="edit"></i></button>
-      <button class="btn vt" data-vt="set" aria-pressed="true" title="Показване/скриване на настройките (S)"><i data-ic="sliders"></i></button>
+      <button class="btn vt" data-vt="bm" aria-pressed="true" title="Показване/скриване на отметките (B)"><i data-ic="bookmark"></i><span class="t">Отметки</span></button>
+      <button class="btn vt" data-vt="ed" aria-pressed="true" title="Показване/скриване на редактора (когато е отворен втори прозорец)"><i data-ic="edit"></i><span class="t">Редактор</span></button>
+      <button class="btn vt" data-vt="set" aria-pressed="true" title="Показване/скриване на настройките (S)"><i data-ic="sliders"></i><span class="t">Настройки</span></button>
     </div>
-    <button class="btn only-narrow" id="bBmBtn" title="Отметки"><i data-ic="bookmark"></i></button>
-    <button class="btn only-narrow" id="bSetBtn" title="Настройки"><i data-ic="sliders"></i></button>
+    <button class="btn only-narrow" id="bBmBtn" title="Отметки"><i data-ic="bookmark"></i><span class="t">Отметки</span></button>
+    <button class="btn only-narrow" id="bSetBtn" title="Настройки"><i data-ic="sliders"></i><span class="t">Настройки</span></button>
     <div class="grp" id="openWrap">
-      <button class="btn" id="bRemote" title="Дистанционно управление"><i data-ic="phone"></i><span class="t" id="bRemoteT">Дистанционно</span></button>
-      <button class="btn" id="bWin"><i data-ic="external"></i><span class="t" id="bWinT">Отвори в прозорец</span></button>
-      <button class="btn" id="bStart"><i data-ic="play"></i><span class="t" id="bStartT">Отвори тук</span></button>
+      <div class="menuwrap">
+        <button class="btn" id="bRun" title="Пусни" aria-haspopup="true"><i data-ic="play"></i><span class="t" id="bRunT">Пусни</span><i data-ic="chev" style="width:14px;height:14px"></i></button>
+        <div class="menu" id="runMenu" hidden>
+          <button id="bStart" title="Старт на цял екран (Ctrl+Enter)"><i data-ic="play"></i><span><span id="bStartT">Цял екран</span><small id="bStartS">Ctrl+Enter</small></span></button>
+          <button id="bWin"><i data-ic="external"></i><span><span id="bWinT">В прозорец</span><small id="bWinS">Отвори в прозорец</small></span></button>
+          <button id="bRemote" title="Връзка"><i data-ic="link"></i><span><span id="bRemoteT">Дистанционно</span><small id="bRemoteS">Връзка</small></span></button>
+          <button id="bConn" title="Връзка с компютъра" hidden><i data-ic="refresh"></i><span><span id="bConnT">Връзка</span><small id="bConnS">Състояние и прекъсване</small></span></button>
+        </div>
+      </div>
+      <button class="btn" id="bDev" title="Покажи на телефона"><i data-ic="phone"></i><span class="t" id="bDevT">Дистанционно</span></button>
     </div>
   </header>
 
@@ -556,7 +596,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
     <div id="bmGrip" title="Влачете, за да разширите панела"></div>
 
     <section class="stagewrap">
-      <div id="editor" class="doc" contenteditable="true" spellcheck="false" lang="bg" aria-label="Текст за телепромптъра"></div>
+      <div id="editor" class="doc" contenteditable="true" spellcheck="true" lang="bg" aria-label="Текст за телепромптъра"></div>
       <div id="pvGrip" hidden title="Влачете, за да оразмерите редактора и превюто. Двоен клик: автоматично."></div>
       <div id="remote" hidden>
   <div id="pvWrap"><div id="pv"><div id="pvStage"><div id="pvScroller"><div id="pvText"></div></div><div class="dim" id="pvDimTop"></div><div class="dim" id="pvDimBot"></div><div id="pvBand"></div></div></div></div>
@@ -638,6 +678,10 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
         <div class="h3row"><h3><i data-ic="globe"></i>Език</h3><div class="seg" role="group" aria-label="Език"><button data-lang="bg" aria-pressed="true" title="Български">BG</button><button data-lang="en" aria-pressed="false" title="English">EN</button></div></div>
       </section>
 
+      <section id="spellSec">
+        <div class="h3row"><h3><i data-ic="text"></i>Проверка на правопис</h3><label class="sw2" title="Подчертава грешните думи в редактора (вградената проверка на системата)"><input type="checkbox" data-key="spell" aria-label="Проверка на правопис"><span class="tr"></span></label></div>
+      </section>
+
       <section id="autoSec" hidden>
         <div class="h3row"><h3><i data-ic="monitor"></i>Старт с Windows</h3><label class="sw2" title="Стартирай TPrompt минимизирано при влизане в Windows"><input type="checkbox" id="autoTgl" aria-label="Старт с Windows"><span class="tr"></span></label></div>
       </section>
@@ -646,20 +690,8 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
         <div class="row"><button class="btn" id="bHelp" type="button"><i data-ic="help"></i><span>Помощ</span></button></div>
       </section>
     </aside>
-    <div id="rcIdle" hidden>
-      <i data-ic="monitor"></i>
-      <b id="rcIdleT">Свързано с компютъра</b>
-      <p id="rcIdleP">Текстът още не се показва на компютъра. Редактирайте, после го пратете.</p>
-      <button class="btn big" id="rcSend"><i data-ic="external"></i><span id="rcSendT">Покажи на компютъра</span></button>
-    </div>
   </div>
   <div id="rcDock" hidden>
-    <div class="rctabs" role="tablist" aria-label="Панели">
-      <button data-rcact="fs" aria-pressed="false" title="Четене на този екран, управление от компютъра"><i data-ic="max"></i><span>Цял екран</span></button>
-      <button data-rcv="ed" aria-pressed="false"><i data-ic="edit"></i><span>Редактор</span></button>
-      <button data-rcv="bm" aria-pressed="false"><i data-ic="bookmark"></i><span>Отметки</span></button>
-      <button data-rcv="set" aria-pressed="false"><i data-ic="sliders"></i><span>Настройки</span></button>
-    </div>
   </div>
 </div>
 
@@ -681,7 +713,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
         <label class="rm-lbl" for="rmAddr">Или въведете адреса от компютъра</label>
         <div class="row rm-row"><input id="rmAddr" type="text" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="http://192.168.1.5:8723/?t=…"><button class="btn" id="rmGo" type="button"><i data-ic="link"></i><span>Свържи</span></button></div>
         <div class="row rm-row"><button class="btn" id="rmDisc" type="button" hidden><i data-ic="x"></i><span>Прекъсни връзката</span></button></div>
-        <p class="sub">На компютъра: бутон „Дистанционно“ в TPrompt, там се показва QR кодът.</p>
+        <p class="sub">На компютъра: бутон „Връзка“ в TPrompt, там се показва QR кодът.</p>
       </div>
     </div>
   </div>
@@ -699,33 +731,35 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
     <div id="band"></div>
   </div>
   <button id="hudToggle" title="Покажи или скрий контролите (C)" aria-label="Контроли"><i data-ic="chevU"></i></button>
+  <button id="xExit" title="Към редактора (E или Esc)" aria-label="Към редактора"><i data-ic="x"></i></button>
   <div id="hud">
-    <div class="grpx">
+    <div class="grpx g1">
       <button class="ib" id="hHome" title="В началото (Home)"><i data-ic="home"></i></button>
       <button class="ib play" id="hPlay" title="Старт / пауза (Space)"><i data-ic="play"></i><i class="spc" data-ic="space"></i></button>
     </div>
     <div class="hprog" id="hProg" title="Прогрес"><i id="hProgFill"></i></div>
-    <div class="grpx" title="Скорост">
+    <div class="grpx r1" title="Скорост">
       <i data-ic="gauge" style="margin:0 4px;color:#98a0d4"></i>
       <button class="ib" id="hSpdDn" title="По-бавно"><i data-ic="minus"></i></button>
       <span class="val" id="hSpd">15</span>
       <button class="ib" id="hSpdUp" title="По-бързо"><i data-ic="plus"></i></button>
     </div>
-    <div class="grpx" title="Размер на текста">
+    <div class="grpx r1" title="Размер на текста">
       <i data-ic="type" style="margin:0 4px;color:#98a0d4"></i>
       <button class="ib" id="hFsDn" title="По-малък (−)"><i data-ic="minus"></i></button>
       <span class="val" id="hFs">64</span>
       <button class="ib" id="hFsUp" title="По-голям (+)"><i data-ic="plus"></i></button>
     </div>
-    <div class="grpx">
+    <i class="brk"></i>
+    <div class="grpx gm">
       <button class="ib" id="hMk" title="Маркер (M)"><i data-ic="marker"></i></button>
       <button class="ib" id="hMH" title="Огледало хоризонтално (H)"><i data-ic="flipH"></i></button>
       <button class="ib" id="hMV" title="Огледало вертикално (V)"><i data-ic="flipV"></i></button>
     </div>
-    <div class="grpx">
+    <div class="grpx gt">
       <div class="meta"><span id="hTime">0:00</span><small id="hPct">0%</small></div>
     </div>
-    <div class="grpx">
+    <div class="grpx r2">
       <button class="ib" id="hBm" title="Отметки (B)"><i data-ic="bookmark"></i></button>
       <button class="ib" id="hSet" title="Настройки (S)"><i data-ic="sliders"></i></button>
       <button class="ib" id="hFull" title="Цял екран (F)"><i data-ic="max"></i></button>
@@ -744,7 +778,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
 <h4>Бързо начало</h4>
 <ol>
 <li>Напишете или поставете текста в редактора. Форматирането от Word, Google Docs и уеб страници се запазва.</li>
-<li>Натиснете <b>Отвори тук</b>, за да четете на цял екран на този екран, или <b>Отвори в прозорец</b>, за да четете във втори прозорец, например на втори монитор.</li>
+<li>Натиснете <b>Пусни</b> и изберете <b>Цял екран</b>, за да четете на този екран, или <b>В прозорец</b>, за да четете във втори прозорец, например на втори монитор. <b>Дистанционно</b> отваря връзката с телефон или компютър. Когато вече е свързано, показва или затваря прозореца на другото устройство.</li>
 <li>Space пуска и спира движението. Стрелките променят скоростта, а + и − размера на буквите.</li>
 <li>Esc или E ви връща в редактора.</li>
 </ol>
@@ -774,7 +808,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
 </ul>
 <h4>Втори прозорец или втори дисплей</h4>
 <ul>
-<li><b>Отвори в прозорец</b> отваря отделен прозорец за четене. Ако има втори дисплей, бутонът се казва „Отвори на втория екран“ и прозорецът се мести там. Браузърът може да поиска разрешение за достъп до дисплеите.</li>
+<li><b>Пусни → В прозорец</b> отваря отделен прозорец за четене. Ако има втори дисплей, под името пише „Отвори на втория екран“ и прозорецът се мести там. Браузърът може да поиска разрешение за достъп до дисплеите.</li>
 <li>В новия прозорец първото кликване или натискане на клавиш го прави на цял екран.</li>
 <li>Докато е отворен, на мястото на редактора се показва превю с бутони за пускане, скорост, размер, начало и прогрес. Превюто е копие на втория прозорец и може да се кликва. Редакторът се връща с бутона с молив горе вдясно.</li>
 <li>Space и другите клавиши управляват втория прозорец, след като кликнете върху превюто. Клик другаде връща клавишите към редактора.</li>
@@ -807,7 +841,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
 <h4>Quick start</h4>
 <ol>
 <li>Type or paste your text in the editor. Formatting from Word, Google Docs and web pages is kept.</li>
-<li>Press <b>Open here</b> to read full screen on this screen, or <b>Open in a window</b> to read in a second window, for example on a second monitor.</li>
+<li>Press <b>Start</b> and choose <b>Full screen</b> to read on this screen, or <b>In a window</b> to read in a second window, for example on a second monitor. <b>Remote</b> opens the link with a phone or computer. When already connected, it shows or closes the window on the other device.</li>
 <li>Space plays and pauses. The arrow keys change the speed, and + and − change the letter size.</li>
 <li>Esc or E takes you back to the editor.</li>
 </ol>
@@ -837,7 +871,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
 </ul>
 <h4>Second window or second display</h4>
 <ul>
-<li><b>Open in a window</b> opens a separate reading window. If there is a second display, the button says “Open on the second screen” and the window moves there. The browser may ask for permission to access displays.</li>
+<li><b>Start → In a window</b> opens a separate reading window. If there is a second display, the line under the name says “Open on the second screen” and the window moves there. The browser may ask for permission to access displays.</li>
 <li>In the new window, the first click or key press makes it full screen.</li>
 <li>While it is open, a preview with play, speed, size, start and progress controls replaces the editor. The preview is a copy of the second window and can be clicked. The editor comes back with the pencil button at the top right.</li>
 <li>Space and the other keys control the second window after you click the preview. A click elsewhere returns the keys to the editor.</li>
@@ -867,8 +901,8 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
       <h4><i data-ic="keyboard"></i>Клавишни комбинации</h4>
       <dl class="keys">
           <dt><kbd>F1</kbd></dt><dd>Този прозорец с помощ</dd>
-          <dt><kbd>Ctrl</kbd><kbd>Enter</kbd></dt><dd>Отвори тук (от редактора)</dd>
-          <dt><kbd>Shift</kbd><kbd>Enter</kbd></dt><dd>Отвори в прозорец или на втория екран</dd>
+          <dt><kbd>Ctrl</kbd><kbd>Enter</kbd></dt><dd>Пусни на цял екран (от редактора)</dd>
+          <dt><kbd>Shift</kbd><kbd>Enter</kbd></dt><dd>Пусни в прозорец или на втория екран</dd>
           <dt><kbd>Ctrl</kbd><kbd>S</kbd></dt><dd>Запази като .html</dd>
           <dt><kbd>Ctrl</kbd><kbd>O</kbd></dt><dd>Отвори файл</dd>
           <dt><kbd>Space</kbd></dt><dd>Старт и пауза</dd>
@@ -957,7 +991,7 @@ $$('[data-ic]').forEach(e=>e.innerHTML=svg(e.dataset.ic));
 
 /* ---------- Настройки ---------- */
 const FONTS=[['Open Sans','sans-serif'],['Roboto','sans-serif'],['PT Sans','sans-serif'],['Manrope','sans-serif'],['Arial','sans-serif'],['Verdana','sans-serif'],['Tahoma','sans-serif'],['PT Serif','serif'],['Georgia','serif'],['Times New Roman','serif'],['Courier New','monospace']];
-const DEF={speed:15,fs:64,lh:1.35,width:82,font:'Open Sans',color:'#ffffff',bg:'#000000',mirrorH:false,mirrorV:false,marker:false,markerY:42,markerH:140,markerColor:'#ffb547',dim:55,invert:false,progress:true,theme:'dark',accent:'',uiBg:'',lang:'bg'};
+const DEF={speed:15,fs:64,lh:1.35,width:82,font:'Open Sans',color:'#ffffff',bg:'#000000',mirrorH:false,mirrorV:false,marker:false,markerY:42,markerH:140,markerColor:'#ffb547',dim:55,invert:false,progress:true,theme:'dark',accent:'',uiBg:'',lang:'bg',spell:true};
 /* .docx библиотеката се зарежда само при нужда: първо локално (vendor/), после от мрежата. Така не блокира стартирането. */
 let mammothP=null;
 function loadMammoth(){
@@ -1034,7 +1068,7 @@ const EN={
 'При първо включване Windows може да попита за достъп до мрежата: разрешете за частни мрежи. Кодът в адреса пази достъпа; „Нов код“ спира старите връзки.':'The first time, Windows may ask for network access: allow it on private networks. The code in the address protects access; “New code” cuts off old connections.',
 'Свържете това устройство с TPrompt на компютъра: оттук редактирате и управлявате, а компютърът показва текста.':'Connect this device to TPrompt on the computer: you edit and control from here, the computer shows the text.',
 'Сканирай QR кода':'Scan the QR code','Или въведете адреса от компютъра':'Or type the address from the computer','Свържи':'Connect','Прекъсни връзката':'Disconnect',
-'На компютъра: бутон „Дистанционно“ в TPrompt, там се показва QR кодът.':'On the computer: the “Remote” button in TPrompt shows the QR code.',
+'На компютъра: бутон „Връзка“ в TPrompt, там се показва QR кодът.':'On the computer: the “Link” button in TPrompt shows the QR code.',
 'Превю':'Preview','Редактор':'Editor','Отметки':'Bookmarks','Настройки':'Settings','Панели':'Panels',
 'Свързано с компютъра':'Connected to the computer','Текстът още не се показва на компютъра. Редактирайте, после го пратете.':'The text is not shown on the computer yet. Edit it, then send it.',
 'Покажи на компютъра':'Show on the computer','Затвори на компютъра':'Close on the computer',
@@ -1050,7 +1084,7 @@ const EN={
 'Адресът не е разпознат. Копирайте целия адрес от компютъра.':'Address not recognised. Copy the whole address from the computer.',
 'Връзката е прекъсната.':'Disconnected.',
 'Отвори в прозорец (Shift+Enter)':'Open in a window (Shift+Enter)',
-'Отвори тук':'Open here','Отвори на втория екран':'Open on the second screen',
+'Отвори на втория екран':'Open on the second screen',
 'Този екран, на цял екран (Ctrl+Enter)':'This screen, full screen (Ctrl+Enter)',
 'Прозорецът сам се позиционира на втория дисплей (Shift+Enter)':'The window positions itself on the second display (Shift+Enter)',
 'Отделен прозорец, който може да се премести (Shift+Enter)':'A separate window you can move (Shift+Enter)',
@@ -1059,7 +1093,7 @@ const EN={
 'Цветовете важат за интерфейса, не за текста в телепромптъра. Смяната на темата ги нулира.':'Colors apply to the interface, not to the teleprompter text. Changing the theme resets them.',
 'Кликнете или натиснете клавиш за цял екран.':'Click or press a key for full screen.',
 'РЕДАКТИРАНЕ':'EDITING','ЧЕТЕНЕ':'PROMPTING','ИЗБЕРЕТЕ ПАНЕЛ':'SELECT A PANEL','Мента':'Mint','Клавишни комбинации':'Keyboard shortcuts','Помощ':'Help','Налично само във Windows приложението. В браузъра и в Android версията не е достъпно.':'Available only in the Windows app. Not available in the browser or the Android version.','Дистанционно от телефон':'Phone remote','Дистанционно':'Remote','Включено':'On','Изключено':'Off','Нов код':'New code','Копирай адреса':'Copy address','Адресът е копиран.':'Address copied.','Не успях да копирам.':'Could not copy.',
-'Сканирайте кода с телефона. Телефонът и компютърът трябва да са в една Wi‑Fi мрежа. При първо включване Windows може да попита за достъп до мрежата: разрешете.':'Scan the code with your phone. The phone and the computer must be on the same Wi‑Fi network. The first time you turn it on, Windows may ask for network access: allow it.','Помощ и клавишни комбинации':'Help and keyboard shortcuts','Този прозорец с помощ':'This help window','Отвори тук (от редактора)':'Open here (from the editor)','Отвори в прозорец или на втория екран':'Open in a window or on the second screen','Запази като .html':'Save as .html','Отвори файл':'Open file',
+'Сканирайте кода с телефона. Телефонът и компютърът трябва да са в една Wi‑Fi мрежа. При първо включване Windows може да попита за достъп до мрежата: разрешете.':'Scan the code with your phone. The phone and the computer must be on the same Wi‑Fi network. The first time you turn it on, Windows may ask for network access: allow it.','Помощ и клавишни комбинации':'Help and keyboard shortcuts','Този прозорец с помощ':'This help window','Пусни на цял екран (от редактора)':'Start in full screen (from the editor)','Пусни в прозорец или на втория екран':'Start in a window or on the second screen','Запази като .html':'Save as .html','Отвори файл':'Open file',
 'Активирай клавиши':'Activate keys',
 'Показване на панели':'Show or hide panels','Показване/скриване на отметките (B)':'Show/hide bookmarks (B)','Показване/скриване на редактора (когато е отворен втори прозорец)':'Show/hide the editor (when a second window is open)','Показване/скриване на настройките (S)':'Show/hide settings (S)','Влачете, за да разширите панела':'Drag to resize the panel','Влачете, за да оразмерите редактора и превюто. Двоен клик: автоматично.':'Drag to resize the editor and preview. Double-click: automatic.',
 'Клавишите са активни':'Keys are active',
@@ -1119,6 +1153,8 @@ const EN={
 'Височина':'Height',
 'За телепромптър със стъкло. Клавиши H и V.':'For glass (beam-splitter) prompters. Keys H and V.',
 'Запази':'Save',
+'Файл':'File',
+'Празен текст':'Empty text',
 'Запази като .html':'Save as .html',
 'Запази като .txt':'Save as .txt',
 'Започнете ред с ~ и тя става отметка, например ~Първа песен. Знакът ~ се вижда само в редактора.':'Start a line with ~ and it becomes a bookmark, for example ~First song. The ~ sign is visible only in the editor.',
@@ -1174,7 +1210,15 @@ const EN={
 'Без име':'Untitled',
 'Още няма отметки. Започнете ред с ~ и заглавие.':'No bookmarks yet. Start a line with ~ and a title.',
 'Старт от тук':'Start from here',
-'Редактирай отметката':'Edit bookmark',
+'Редактирай отметката':'Edit bookmark','Състояние и прекъсване':'Status and disconnect','Проверка на правопис':'Spell check','Подчертава грешните думи в редактора (вградената проверка на системата)':'Underlines misspelled words in the editor (system spell check)','Пусни':'Start','В прозорец':'In a window',
+'Връзка':'Link','Връзка с телефон':'Link with a phone','Връзка с компютър':'Link with a computer',
+'Покажи на телефона':'Show on the phone','Затвори на телефона':'Close on the phone','На този екран':'On this screen',
+'Свържете телефон, за да показвате текста на него':'Link a phone to show the text on it',
+'Свържете телефон: сканирайте QR кода.':'Link a phone: scan the QR code.',
+'Пращам към телефона…':'Sending to the phone…',
+'Телефонът не отговори. Отворете TPrompt на телефона и опитайте пак.':'The phone did not respond. Open TPrompt on the phone and try again.',
+'Компютърът показва текста на този екран.':'The computer is showing the text on this screen.',
+'Текстът се чете на този екран, управлението е от компютъра':'The text is read on this screen, controlled from the computer',
 'Библиотеката за .docx не е заредена. Нужна е връзка с интернет.':'The .docx library is not loaded. An internet connection is required.',
 'Старият формат .doc не се чете от браузъра. Запазете го като .docx във Word или копирайте текста и го поставете тук.':'The old .doc format cannot be read by the browser. Save it as .docx in Word, or copy the text and paste it here.',
 'Зареден файл: {n}. Ctrl+Z връща предишния текст.':'Loaded file: {n}. Ctrl+Z restores the previous text.',
@@ -1226,6 +1270,7 @@ function applyStyles(){
   const [R,G,B]=hexRGB(S.bg);r.setProperty('--dim',`rgba(${R},${G},${B},${S.dim/100})`);
   stage.style.transform=`scale(${S.mirrorH?-1:1},${S.mirrorV?-1:1})`;
   prompter.classList.toggle('mk',S.marker);
+  $('#editor').spellcheck=!!S.spell;
   hud.classList.toggle('noprog',!S.progress);document.body.classList.toggle('noprog',!S.progress);
   applyTheme();
   try{if(pvRendered)layoutPreview()}catch(e){}
@@ -1575,14 +1620,14 @@ function fillList(box,titles,mode){
     const n=document.createElement('span');n.className='n';n.textContent=i+1;
     const b=document.createElement(mode==='edit'?'span':'button');if(mode!=='edit')b.type='button';b.className='tt';b.textContent=ttl;b.title=ttl;
     if(mode==='edit'){
-      /* две отделни функции: лявата част отива към текста в редактора, плътният зелен бутон пуска четенето от отметката */
+      /* две равни половини: лявата отива към текста в редактора, дясната пуска четенето от отметката */
       row.classList.add('ed');
       const ed=document.createElement('button');ed.type='button';ed.className='bm-edit';ed.title=t('Редактирай отметката')+': '+ttl;
       const pen=document.createElement('i');pen.className='pen';pen.innerHTML=svg('edit');
       ed.append(n,b,pen);
       ed.addEventListener('click',()=>{if(rcOn()){rcv='ed';applyRc();applyView()}gotoEditor(i)});
-      const g=document.createElement('button');g.type='button';g.className='bm-go';g.title=t('Старт от тук');g.setAttribute('aria-label',t('Старт от тук'));g.innerHTML=svg('play');
-      g.addEventListener('click',e=>{e.stopPropagation();if(remoteOn()){remoteBm(i);if(rcOn())setRcv('pv')}else startReading(true,i)});
+      const g=document.createElement('button');g.type='button';g.className='bm-go';g.title=t('Старт от тук');g.setAttribute('aria-label',t('Старт от тук'));g.innerHTML='<i class="gi">'+svg('play')+'</i><span>'+t('Пусни')+'</span>';
+      g.addEventListener('click',e=>{e.stopPropagation();if(remoteOn())remoteBm(i);else startReading(true,i)});
       row.append(ed,g);
     }else{
       row.append(n,b);
@@ -1701,7 +1746,7 @@ async function openFile(f){
     toast(t('Зареден файл: {n}. Ctrl+Z връща предишния текст.',{n:f.name}));
   }catch(err){toast(err.message||t('Файлът не може да се отвори.'),true)}
 }
-$('#bOpen').addEventListener('click',()=>$('#file').click());
+$('#miOpen').addEventListener('click',()=>{$('#fileMenu').hidden=true;$('#file').click()});
 $('#file').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)openFile(f)});
 $$('[data-lang]').forEach(b=>b.addEventListener('click',()=>{S.lang=b.dataset.lang;saveS();applyLang()}));
 function drawer(which){
@@ -1709,8 +1754,8 @@ function drawer(which){
   if(!reading)settings.classList.toggle('open',which==='set');
   document.body.classList.toggle('drawer',!!which);
 }
-$('#bBmBtn').addEventListener('click',()=>drawer($('#bmSide').classList.contains('open')?null:'bm'));
-$('#bSetBtn').addEventListener('click',()=>drawer(settings.classList.contains('open')?null:'set'));
+$('#bBmBtn').addEventListener('click',()=>{if(rcOn())setRcv('bm');else drawer($('#bmSide').classList.contains('open')?null:'bm')});
+$('#bSetBtn').addEventListener('click',()=>{if(rcOn())setRcv('set');else drawer(settings.classList.contains('open')?null:'set')});
 $('#scrim').addEventListener('click',()=>drawer(null));
 $('#bCloseBm').addEventListener('click',()=>drawer(null));
 window.addEventListener('resize',()=>{if(innerWidth>900&&!reading)drawer(null)});
@@ -1727,7 +1772,7 @@ function toggleHelp(force){
 $('#bHelp').addEventListener('click',()=>toggleHelp(true));
 $('#helpClose').addEventListener('click',()=>toggleHelp(false));
 $('#helpModal').addEventListener('mousedown',e=>{if(e.target===e.currentTarget)toggleHelp(false)});
-$('#bNew').addEventListener('click',()=>{setDoc('<p><br></p>');toast(t('Нов празен текст. Ctrl+Z връща предишния.'))});
+$('#miNew').addEventListener('click',()=>{$('#fileMenu').hidden=true;setDoc('<p><br></p>');toast(t('Нов празен текст. Ctrl+Z връща предишния.'))});
 
 function docTitle(){const l=(editor.innerText.trim().split('\n')[0]||'').replace(/[\\/:*?"<>|]+/g,'').trim().slice(0,40);return l||'tprompt'}
 function buildHtml(){
@@ -1754,11 +1799,11 @@ async function saveFile(name,data){
   }catch(e){toast(t('Запазването не успя в този прозорец.'),true)}
 }
 function doSave(kind){
-  $('#saveMenu').hidden=true;
+  $('#fileMenu').hidden=true;
   if(kind==='txt')saveFile(docTitle()+'.txt',editor.innerText.replace(/\n{3,}/g,'\n\n'));
   else saveFile(docTitle()+'.html',buildHtml());
 }
-$('#bSave').addEventListener('click',e=>{e.stopPropagation();const m=$('#saveMenu');m.hidden=!m.hidden});
+$('#bFile').addEventListener('click',e=>{e.stopPropagation();$('#runMenu').hidden=true;const m=$('#fileMenu');m.hidden=!m.hidden});
 $$('[data-save]').forEach(b=>b.addEventListener('click',()=>doSave(b.dataset.save)));
 
 /* ---------- Телепромптър ---------- */
@@ -1829,10 +1874,10 @@ function setPlay(v){
   if(VIEWER&&reading)postState();
 }
 function showHud(){
-  const tg=$('#hudToggle');tg.classList.remove('idle');document.body.classList.remove('nocursor');
+  const tg=$('#hudToggle'),xe=$('#xExit');tg.classList.remove('idle');xe.classList.remove('idle');document.body.classList.remove('nocursor');
   clearTimeout(hudTimer);
   if(playing&&!hud.classList.contains('open'))hudTimer=setTimeout(()=>{
-    if(!settings.classList.contains('open')&&!bmPanel.classList.contains('open')){tg.classList.add('idle');document.body.classList.add('nocursor')}
+    if(!settings.classList.contains('open')&&!bmPanel.classList.contains('open')){tg.classList.add('idle');xe.classList.add('idle');document.body.classList.add('nocursor')}
   },2600);
 }
 let hudPinned=false; // отворен ръчно (C или бутона): не се скрива при пускане
@@ -1883,8 +1928,15 @@ document.addEventListener('fullscreenchange',onFS);document.addEventListener('we
 if(window.ResizeObserver)new ResizeObserver(()=>{if(reading){const f=maxPos?pos/maxPos:0;layout();pos=f*maxPos;draw(true)}}).observe(textcol);
 window.addEventListener('resize',()=>{if(reading){const f=maxPos?pos/maxPos:0;layout();pos=f*maxPos;draw(true)}});
 
-$('#bStart').addEventListener('click',()=>startReading(true));
-$('#bWin').addEventListener('click',togglePopup);
+const closeRun=()=>{$('#runMenu').hidden=true};
+$('#bRun').addEventListener('click',e=>{e.stopPropagation();$$('.menuwrap .menu').forEach(m=>{if(m.id!=='runMenu')m.hidden=true});const m=$('#runMenu');m.hidden=!m.hidden});
+$('#bStart').addEventListener('click',()=>{
+  closeRun();
+  /* свързан с компютъра: четем на този екран, а компютърът управлява */
+  const n=(!IS_TAURI&&netApi)?netApi.state():null;
+  if(n&&n.on&&n.ok)netApi.startRv();else startReading(true);
+});
+$('#bWin').addEventListener('click',()=>{closeRun();togglePopup()});
 try{screen.addEventListener('change',updateOpenLabel)}catch(e){}
 $('#hPlay').addEventListener('click',()=>togglePlay(true));
 $('#hHome').addEventListener('click',()=>{pos=0;remain=0;draw(true)});
@@ -1909,6 +1961,7 @@ hProg.addEventListener('pointerup',()=>{seeking=false});
 hProg.addEventListener('pointercancel',()=>{seeking=false});
 $('#hBm').addEventListener('click',()=>toggleBm());
 $('#hudToggle').addEventListener('click',e=>{e.stopPropagation();setHud(!hud.classList.contains('open'),true)});
+$('#xExit').addEventListener('click',e=>{e.stopPropagation();$('#hExit').click()});
 hud.addEventListener('click',e=>e.stopPropagation());
 bmPanel.addEventListener('click',e=>e.stopPropagation());
 $('#bmClose').addEventListener('click',()=>toggleBm(false));
@@ -1991,7 +2044,7 @@ document.addEventListener('keydown',e=>{
     if(mod&&k==='Enter'){e.preventDefault();startReading(true)}
     else if(mod&&k==='s'){e.preventDefault();doSave('html')}
     else if(mod&&k==='o'){e.preventDefault();$('#file').click()}
-    else if(k==='Escape'){closePal();$('#saveMenu').hidden=true;drawer(null)}
+    else if(k==='Escape'){closePal();$('#fileMenu').hidden=true;$('#runMenu').hidden=true;drawer(null)}
     return;
   }
   if(typing){if(k==='Escape')t.blur();return}
@@ -2068,18 +2121,38 @@ function closePopup(){
   try{if(popupWin)popupWin.close()}catch(e){}
   popupWin=null;remoteSeen=-1e9;updateRemote();updateOpenLabel();
 }
-function togglePopup(){if(popupOpen())closePopup();else openPopup()}
+const NOHOST={linked:()=>false,viewing:()=>false,showOnPhone(){}};
+const hostApi=()=>{try{return HOST||NOHOST}catch(e){return NOHOST}};   /* HOST се създава по-надолу */
+function togglePopup(){
+  /* четене на телефона и във втори прозорец едновременно не се поддържа: сменяме мястото */
+  if(IS_TAURI&&hostApi().viewing()){closePopup();openPopup();return}
+  if(popupOpen())closePopup();else openPopup();
+}
+var netApi=null;   /* вързва се към мрежовия клиент, когато е създаден */
 function updateOpenLabel(){
-  const open=popupOpen();
-  const winT=netOnFlag?t(open?'Затвори на компютъра':'Покажи на компютъра'):t(open?'Затвори прозореца':(hasSecond()?'Отвори на втория екран':'Отвори в прозорец')),hereT=t('Отвори тук');
+  const phoneV=IS_TAURI&&!VIEWER&&hostApi().viewing(),open=popupOpen()&&!phoneV;
+  const winT=netOnFlag?t(open?'Затвори на компютъра':'Покажи на компютъра'):t(open?'Затвори прозореца':(hasSecond()?'Отвори на втория екран':'Отвори в прозорец')),linkT=t(IS_TAURI?'Връзка с телефон':'Връзка с компютър');
   $('#bWin').classList.toggle('on',open);$('#bWin').setAttribute('aria-pressed',String(open));
-  setTxt($('#bWinT'),winT);if($('#bWin').title!==winT)$('#bWin').title=winT;
-  setTxt($('#bStartT'),hereT);if($('#bStart').title!==hereT)$('#bStart').title=hereT;
-  setTxt($('#bRemoteT'),t('Дистанционно'));$('#bRemote').title=t('Дистанционно управление');
+  setTxt($('#bRunT'),t('Пусни'));if($('#bRun').title!==t('Пусни'))$('#bRun').title=t('Пусни');
+  const net=(!IS_TAURI&&!VIEWER&&netApi)?netApi.state():null,linked=!!(net&&net.on);
+  setTxt($('#bStartT'),t('Цял екран'));setTxt($('#bStartS'),linked?t('На този екран'):'Ctrl+Enter');
+  setTxt($('#bWinT'),t('В прозорец'));setTxt($('#bWinS'),winT);if($('#bWin').title!==winT)$('#bWin').title=winT;
+  /* Android, вече свързан с компютъра: „Дистанционно“ показва или затваря прозореца на компютъра, без нова връзка */
+  const remT=linked?winT:linkT;
+  setTxt($('#bRemoteT'),t('Дистанционно'));setTxt($('#bRemoteS'),remT);if($('#bRemote').title!==remT)$('#bRemote').title=remT;
+  $('#bConn').hidden=!linked;setTxt($('#bConnT'),t('Връзка'));setTxt($('#bConnS'),t('Състояние и прекъсване'));
+  if(IS_TAURI&&!VIEWER){
+    /* „Покажи на телефона“: същото като „Покажи на компютъра“ в Android приложението */
+    const h=hostApi(),ds=h.viewing()?2:h.linked()?1:0;
+    const dT=t(ds===2?'Затвори на телефона':'Покажи на телефона');
+    setTxt($('#bDevT'),t('Дистанционно'));
+    const dTitle=ds===0?t('Свържете телефон, за да показвате текста на него'):dT;if($('#bDev').title!==dTitle)$('#bDev').title=dTitle;
+    $('#bDev').classList.toggle('on',ds===2);$('#bDev').classList.toggle('idle',ds===0);$('#bDev').setAttribute('aria-pressed',String(ds===2));
+  }
 }
 /* преглед на втория прозорец (без огледало, за да чете операторът заедно с водещия) */
 const pv=$('#pv'),pvWrap=$('#pvWrap'),pvStage=$('#pvStage'),pvScroller=$('#pvScroller'),pvText=$('#pvText');
-let pvDims={W:1280,H:720},pvBase={frac:0,fr:0,ts:0},pvLastFr=0,pvEaseUntil=0,pvRaf=0,pvLast=0,pvDisp=0,pvMax=0,pvRendered=false,remoteActive=false,remoteClosedAt=-1e9;
+let pvDims={W:1280,H:720},pvBase={frac:0,fr:0,ts:0},pvLastFr=0,pvRaf=0,pvLast=0,pvDisp=0,pvMax=0,pvRendered=false,remoteActive=false,remoteClosedAt=-1e9;
 function previewHtml(){
   const c=editor.cloneNode(true);
   c.querySelectorAll('[style]').forEach(el=>{const fs=el.style.fontSize;if(fs&&fs.endsWith('px'))el.style.fontSize=`calc(var(--pfs) * ${(parseFloat(fs)/BASE).toFixed(4)})`});
@@ -2252,7 +2325,7 @@ function onMsg(m){
       let stale=false;
       if(pendPlay){
         /* докато вторият прозорец не потвърди, остарелите съобщения не променят нито бутона, нито позицията (иначе бутонът мига, а текстът подскача назад) */
-        if(m.playing===pendPlay.v||performance.now()-pendPlay.t>4000){pendPlay=null;clearTimeout(pendTimer);pvEaseUntil=performance.now()+700}
+        if(m.playing===pendPlay.v||performance.now()-pendPlay.t>4000){pendPlay=null;clearTimeout(pendTimer)}
         else{stale=true;m=Object.assign({},m,{playing:pendPlay.v})}
       }
       remoteSt=m;remoteSeen=performance.now();
@@ -2326,7 +2399,7 @@ function applyView(){
   document.body.classList.toggle('hide-set',!rc&&!VT.set);
   document.body.classList.toggle('ctl-off',!VT.ctl);
   document.body.classList.toggle('ed-off',!eff);
-  const sw=pvWrap.closest('.stagewrap');sw.classList.toggle('pvfull',on&&!eff);
+  const sw=pvWrap.closest('.stagewrap');sw.classList.toggle('pvfull',on&&(!eff||rc));   /* при свързан компютър превюто винаги запълва своя панел */
   $$('[data-vt]').forEach(b=>{const k=b.dataset.vt;b.setAttribute('aria-pressed',String(k==='ed'?eff:VT[k]));if(k==='ed')b.disabled=!on});
   if(pvRendered)layoutPreview();
 }
@@ -2335,7 +2408,7 @@ function saveView(){try{localStorage.setItem('tp.view',JSON.stringify(VT))}catch
 $$('[data-vt]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.vt;VT[k]=!VT[k];if(k==='ed')autoEd=false;saveView();applyView()}));
 /* малък екран + свързано дистанционно: горе превю/редактор/отметки/настройки, долу контролите */
 const narrowMQ=matchMedia('(max-width:900px)');
-let rcv='pv',rcWas=false;
+let rcv='ed',rcWas=false;
 const rcOn=()=>!VIEWER&&narrowMQ.matches&&(netOnFlag||remoteOn());
 function applyRc(){
   const on=rcOn(),live=on&&remoteOn(),b=document.body;
@@ -2343,21 +2416,18 @@ function applyRc(){
   if(on!==rcWas){
     rcWas=on;
     const dock=$('#rcDock'),rb=$('.rbar'),pg=$('#rProg');
-    if(on){rcv='pv';drawer(null);dock.hidden=false;dock.prepend(pg,rb)}
+    if(on){rcv='ed';drawer(null);dock.hidden=false;dock.prepend(pg,rb)}
     else{$('#remote').append(pg,rb);dock.hidden=true}
   }
   b.classList.toggle('rc',on);b.classList.toggle('rcLive',live);
   if(on)b.dataset.rcv=rcv;else b.removeAttribute('data-rcv');
-  $$('#rcDock [data-rcv]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.rcv===rcv)));
   if(changed){applyView();toolbarEnd()}
 }
 function toolbarEnd(){const tp=$('.top');if(tp)requestAnimationFrame(()=>{tp.scrollLeft=tp.scrollWidth})}
 toolbarEnd();
-function setRcv(v){rcv=(rcv===v&&v!=='pv')?'pv':v;applyRc();applyView()}
-$$('#rcDock [data-rcv]').forEach(x=>x.addEventListener('click',()=>setRcv(x.dataset.rcv)));
-$('#rcDock [data-rcact=fs]').addEventListener('click',()=>NETC.startRv());
-$('#bCloseBm').addEventListener('click',()=>{if(rcOn())setRcv('pv')});
-$('#bCloseSet').addEventListener('click',()=>{if(rcOn())setRcv('pv')});
+function setRcv(v){rcv=(rcv===v)?'ed':v;applyRc();applyView()}   /* още едно натискане връща редактора */
+$('#bCloseBm').addEventListener('click',()=>{if(rcOn()&&rcv==='bm')setRcv('bm')});
+$('#bCloseSet').addEventListener('click',()=>{if(rcOn()&&rcv==='set')setRcv('set')});
 if(narrowMQ.addEventListener)narrowMQ.addEventListener('change',applyRc);
 window.addEventListener('resize',applyRc);
 /* системният бутон „назад“ (Android) затваря най-горния слой вместо приложението: цял екран, панел */
@@ -2367,7 +2437,7 @@ if(!IS_TAURI&&!VIEWER){
     if(rvOn)return ()=>NETC.stopRv(true);
     if(reading)return ()=>stopReading();
     if(document.body.classList.contains('drawer'))return ()=>drawer(null);
-    if(rcOn()&&rcv!=='pv')return ()=>{rcv='pv';applyRc();applyView()};
+    if(rcOn()&&rcv!=='ed')return ()=>{rcv='ed';applyRc();applyView()};
     return null;
   };
   const syncNav=()=>{
@@ -2548,14 +2618,27 @@ function openRemote(v){
   $('#rmHost').hidden=!IS_TAURI;$('#rmClient').hidden=IS_TAURI;
   if(IS_TAURI)HOST.enter();else NETC.ui();
 }
-$('#bRemote').addEventListener('click',()=>openRemote(true));
+$('#bRemote').addEventListener('click',()=>{
+  closeRun();
+  const n=(!IS_TAURI&&netApi)?netApi.state():null;
+  if(n&&n.on){if(popupOpen())closePopup();else netApi.open();return}   /* вече свързан: само показваме или затваряме прозореца на компютъра */
+  openRemote(true);
+});
+$('#bConn').addEventListener('click',()=>{closeRun();openRemote(true)});
+$('#bDev').addEventListener('click',()=>{
+  if(!IS_TAURI)return;
+  const h=hostApi();
+  if(h.viewing()){closePopup();return}
+  if(!h.linked()){toast(t('Свържете телефон: сканирайте QR кода.'));openRemote(true);return}
+  h.showOnPhone();updateOpenLabel();
+});
 $('#rmClose').addEventListener('click',()=>openRemote(false));
 rmModal.addEventListener('mousedown',e=>{if(e.target===e.currentTarget)openRemote(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!rmModal.hidden){e.preventDefault();openRemote(false)}},true);
 
 /* ----- компютър (Windows) ----- */
 const HOST=(()=>{
-  if(VIEWER||!IS_TAURI)return {enter(){},status(){}};
+  if(VIEWER||!IS_TAURI)return {enter(){},status(){},linked:()=>false,viewing:()=>false,showOnPhone(){}};
   let on=false,timer=0,ctTimer=0,rxTimer=0,busy=false,rxBusy=false,info=null,rx={rxAgo:null,webAgo:null};
   const trim=(s,n)=>{s=(s||'').trim();return s.length>n?s.slice(0,n-1)+'…':s};
   function state(){
@@ -2694,7 +2777,18 @@ const HOST=(()=>{
   $('#rmCopy').addEventListener('click',()=>{if(info)navigator.clipboard.writeText(info.url).then(()=>toast(t('Адресът е копиран.'))).catch(()=>toast(t('Не успях да копирам.'),true))});
   let was=null;try{was=localStorage.getItem('tp.phone')}catch(e){}
   if(was==='1')setOn(true);
-  return {async enter(){if(!on)await setOn(true);else show()},status};
+  /* компютърът казва на приложението на телефона да започне да чете (телефонът пита за това със своята заявка за състояние) */
+  let wantT=0;
+  function showOnPhone(){
+    if(!appAlive())return;
+    if(popupWin&&!popupWin.closed)closePopup();
+    tinvoke('remote_want',{view:true}).catch(()=>{});
+    toast(t('Пращам към телефона…'));
+    clearTimeout(wantT);
+    wantT=setTimeout(()=>{if(!netView&&on)toast(t('Телефонът не отговори. Отворете TPrompt на телефона и опитайте пак.'),true)},7000);
+    updateOpenLabel();
+  }
+  return {async enter(){if(!on)await setOn(true);else show()},status,linked:appAlive,viewing:()=>netView,showOnPhone};
 })();
 
 /* ----- собствени падащи менюта ----- */
@@ -2716,7 +2810,6 @@ const HOST=(()=>{
     if(cur===sel){close();return}
     close();cur=sel;
     menu=document.createElement('div');menu.className='ddm';menu.setAttribute('role','listbox');
-    if(document.body.classList.contains('reading')&&sel.closest('#settings'))menu.style.cssText='--panel:#141936;--line:#2b3270;--ink:#e9ecff;--hover:#252c5c';
     [...sel.options].forEach((o,i)=>{
       const it=document.createElement('div');it.className='it';it.setAttribute('role','option');
       it.setAttribute('aria-selected',String(o.value===sel.value));
@@ -2784,7 +2877,7 @@ if(IS_TAURI&&!VIEWER){
 /* ----- телефон / таблет (Android приложение, браузър) ----- */
 const NETC=(()=>{
   if(VIEWER)return {ui(){},stopScan(){},open(){},startRv(){},stopRv(){},fromViewer(){}};
-  const NET={on:false,ok:false,live:false,base:'',tok:'',seq:-1,skew:0,q:[],sending:false,fails:0,busy:false,timer:0,resend:false,flushT:0};
+  const NET={on:false,ok:false,live:false,base:'',tok:'',seq:-1,wseq:null,skew:0,q:[],sending:false,fails:0,busy:false,timer:0,resend:false,flushT:0};
   const SKIP=['lang','theme','accent','uiBg'];   /* интерфейсни настройки не се пращат към компютъра */
   const cleanS=S0=>{const o=Object.assign({},S0);SKIP.forEach(k=>delete o[k]);return o};
   function parseTarget(txt){
@@ -2853,6 +2946,11 @@ const NETC=(()=>{
       if(!NET.ok){NET.ok=true;ui();if(NET.live&&NET.resend){NET.resend=false;sendContent()}}
       NET.skew=(r.now||t1)-(t0+t1)/2;
       if(RV.on&&Array.isArray(r.tx))r.tx.forEach(fromPc);
+      /* компютърът поиска четене на този екран (бутон „Покажи на телефона“). Първата стойност само се запомня, за да не се изпълни стара заявка. */
+      if(typeof r.wseq==='number'){
+        if(NET.wseq===null)NET.wseq=r.wseq;
+        else if(r.wseq!==NET.wseq){NET.wseq=r.wseq;if(r.want==='view'&&!RV.on&&!rvOn){toast(t('Компютърът показва текста на този екран.'));startRv()}}
+      }
       const s=r.st;
       if(s&&s.seq!==NET.seq&&!RV.on){
         NET.seq=s.seq;
@@ -2883,7 +2981,7 @@ const NETC=(()=>{
       return false;
     }
     clearInterval(NET.timer);
-    NET.on=true;NET.ok=true;NET.seq=-1;NET.fails=0;NET.q=[];NET.live=false;netOnFlag=true;
+    NET.on=true;NET.ok=true;NET.seq=-1;NET.wseq=null;NET.fails=0;NET.q=[];NET.live=false;netOnFlag=true;
     try{localStorage.setItem('tp.net',JSON.stringify({base:NET.base,tok:NET.tok}))}catch(e){}
     NET.timer=setInterval(poll,150);
     ui();
@@ -2946,7 +3044,6 @@ const NETC=(()=>{
   $('#rmGo').addEventListener('click',()=>{const tg=parseTarget($('#rmAddr').value);if(!tg){toast(t('Адресът не е разпознат. Копирайте целия адрес от компютъра.'),true);return}stopScan();connect(tg,true)});
   $('#rmAddr').addEventListener('keydown',e=>{if(e.key==='Enter')$('#rmGo').click()});
   $('#rmDisc').addEventListener('click',()=>{disconnect();toast(t('Връзката е прекъсната.'))});
-  $('#rcSend').addEventListener('click',open);
   let saved=null;try{saved=JSON.parse(localStorage.getItem('tp.net')||'null')}catch(e){}
   if(saved&&saved.base&&saved.tok){
     $('#rmAddr').value=saved.base+'/?t='+saved.tok;
@@ -2995,8 +3092,7 @@ const NETC=(()=>{
   }
   return {ui,stopScan,open,connect,parseTarget,startRv,stopRv,fromViewer,state:()=>NET};
 })();
-})();
-
+netApi=NETC;
 /* ---------- Диагностика на плавността: Ctrl+Shift+D във всеки прозорец ---------- */
 (()=>{
   let el=null,raf=0,last=0,frames=0,worst=0,slow=0,t0=0;
@@ -3014,6 +3110,7 @@ const NETC=(()=>{
     el.style.cssText='position:fixed;left:8px;top:8px;z-index:9999;padding:4px 8px;border-radius:4px;background:rgba(0,0,0,.75);color:#7dffb2;font:600 12px Manrope,monospace;pointer-events:none';
     document.body.appendChild(el);t0=performance.now();raf=requestAnimationFrame(loop);
   },true);
+})();
 })();
 </script>
 </body>
