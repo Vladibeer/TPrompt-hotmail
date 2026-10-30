@@ -45,15 +45,12 @@ kbd{font:600 11px Manrope,sans-serif;padding:2px 6px;border-radius:3px;border:1p
 .btn:hover{background:var(--hover);border-color:var(--acc)}
 .btn.primary{background:var(--acc);border-color:transparent;color:var(--onacc);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--acc) 80%,transparent)}
 #openWrap{display:inline-grid;grid-auto-flow:column;grid-auto-columns:auto;gap:8px}
-body:not(.tauri) #bDev{display:none}
 #openWrap .btn{justify-content:center;white-space:nowrap}
-#bDev.on{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
 #runMenu{left:auto;right:0;min-width:250px}
 #runMenu small{margin-top:1px}
-.menu #bWin.on::after,.menu #bRemote.on::after,.menu #bRemote.warn::after{content:"";width:8px;height:8px;border-radius:50%;margin-left:auto;flex:none;background:var(--acc)}
-.menu #bRemote.on::after{background:var(--teal)}
-.menu #bRemote.warn::after{background:#ffb547}
-#bDev.idle{color:var(--mute)}
+.menu #bWin.on::after,.menu #bRemote.on::after,.menu #bNet.on::after,.menu #bNet.warn::after{content:"";width:8px;height:8px;border-radius:50%;margin-left:auto;flex:none;background:var(--acc)}
+.menu #bNet.on::after{background:var(--teal)}
+.menu #bNet.warn::after{background:#ffb547}
 .split{display:flex}
 .split>.btn:first-child{border-radius:4px 0 0 4px}
 .split>.btn:nth-child(2){border-radius:0 4px 4px 0;padding:0 8px;border-left:1px solid rgba(255,255,255,.35)}
@@ -71,6 +68,7 @@ body:not(.tauri) #bDev{display:none}
 #fileMenu .t{padding-right:0}
 .menu hr{border:0;border-top:1px solid var(--line);margin:6px 4px}
 .menu button[hidden]{display:none}
+#rFull{display:none}
 .menu button kbd{margin-left:auto;flex:none;color:var(--mute)}
 .menu small{display:block;color:var(--mute);font-weight:500;font-size:12px}
 
@@ -386,6 +384,7 @@ body.tauri .touch-only{display:none!important}
   body.rc #remote{display:none!important;order:3;margin:8px 10px;min-height:0}
   body.rc.rcLive #remote{display:flex!important;flex:1 1 0;height:auto}
   body.rc .fmt{display:flex}
+  body.rc[data-rcv=pv] .fmt{display:none}
   body.rc:not([data-rcv=ed]) .fmt{opacity:.4;pointer-events:none}
   body.rc #modeBanner{display:none}
   @media (max-height:520px){
@@ -403,9 +402,10 @@ body.tauri .touch-only{display:none!important}
   #rcDock .rbar .ib{width:54px;height:54px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);flex:none;touch-action:manipulation}
   #rcDock .rbar .ib i{width:24px;height:24px}
   #rcDock .rbar .ib:active{background:var(--hover)}
-  #rcDock .rbar .play{order:1;flex:1 1 calc(100% - 70px);width:auto;min-width:0;height:54px;background:var(--teal);border-color:var(--teal);color:#06231d;gap:10px}
+  #rcDock .rbar .play{order:1;flex:1 1 calc(100% - 132px);width:auto;min-width:0;height:54px;background:var(--teal);border-color:var(--teal);color:#06231d;gap:10px}
   #rcDock .rbar .play i{width:28px;height:28px}
-  #rcDock #rClose{order:2}
+  #rcDock #rFull{display:inline-flex;order:2}
+  #rcDock #rClose{order:3}
   #rcDock .rbar .rg{order:5;flex:1 1 calc(50% - 4px);min-width:0;display:flex;align-items:center;justify-content:space-between;gap:2px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
   #rcDock .rbar .rg > i{width:22px;height:22px;margin-left:8px;color:var(--mute);flex:none}
   #rcDock .rbar .rg .ib{border:0;background:none;width:50px;height:48px}
@@ -433,10 +433,10 @@ body.tauri .touch-only{display:none!important}
 .viewtog .btn:disabled{opacity:.4;cursor:default}
 .viewtog .btn:disabled:hover{background:var(--panel2);border-color:var(--line)}
 @media (min-width:641px){.top .btn{width:132px;padding:0 10px;justify-content:center;white-space:nowrap}.top .btn .t{overflow:hidden;text-overflow:ellipsis}}
+@media (min-width:641px) and (max-width:900px){.top .btn{width:112px}}
 @media (min-width:901px){
   body.hide-bm #bmSide,body.hide-bm #bmGrip,body.hide-set #settings,body.ed-off #editor,body.ed-off #pvGrip{display:none}
 }
-@media (max-width:900px){.viewtog{display:none}}
 body.ctl-off #remote .rprog,body.ctl-off #remote .rbar{display:none}
 body:not(.rc) #remote .rg{display:none}
 #pvGrip{position:relative;flex:none;height:7px;margin:-4px 0;z-index:3;cursor:ns-resize;touch-action:none;background:transparent;transition:background .15s}
@@ -451,7 +451,8 @@ body:not(.rc) #remote .rg{display:none}
 #pvText{width:var(--pw);margin:0 auto;font-family:var(--pfont);font-size:var(--pfs);line-height:var(--plh);color:var(--pcolor);word-wrap:break-word}
 body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,body.viewer #remote{display:none!important}
 @media (max-width:900px){
-  #bmSide,#settings{position:fixed;top:0;bottom:0;z-index:60;width:min(340px,90vw);padding-top:calc(8px + env(safe-area-inset-top,0px));transition:transform .25s;box-shadow:0 0 50px rgba(0,0,0,.5)}
+  #scrim{top:var(--tbh,63px)}   /* панелите започват под лентата, за да остане тя достъпна */
+  #bmSide,#settings{position:fixed;top:var(--tbh,63px);bottom:0;z-index:60;width:min(340px,90vw);padding-top:8px;transition:transform .25s;box-shadow:0 0 50px rgba(0,0,0,.5)}
   #bmSide{left:0;transform:translateX(-105%);border-right:1px solid var(--line)}
   #settings{right:0;transform:translateX(105%)}
   #bmSide.open,#settings.open{transform:none}
@@ -484,13 +485,14 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
   #bFile i:last-child,#bRun i:last-child{display:none}
   /* телефон: всички бутони в лентата са с еднаква ширина, иконата е над надписа */
   .top > .grow{display:none}
-  #openWrap{display:flex}
-  .top > .grp,.top > .btn,.top .grp .menuwrap,.top .grp .btn{flex:1 1 0;min-width:0}
-  .top .btn{width:100%;height:46px;flex-direction:column;justify-content:center;gap:2px;padding:0 4px;font-size:11px}
+  /* пет еднакви колони: Файл, Отметки, Редакция, Настройки, Пусни */
+  .top{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible}
+  .top .grp,.top .menuwrap{display:contents}
+  .top .btn{width:100%;height:46px;flex-direction:column;justify-content:center;gap:2px;padding:0 2px;font-size:10px;letter-spacing:0}
   .top .btn .t{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .top .btn i[data-ic]{width:18px;height:18px}
   .menu{top:70px}
-  .top > .langwrap,#bWin,#bInstall,#themeWrap{display:none}
+  .top > .langwrap,#bWin,#themeWrap{display:none}
   .fmt{flex-wrap:nowrap;overflow-x:auto;padding:6px 10px;scrollbar-width:none}
   .fmt::-webkit-scrollbar{display:none}
   .fmt > *{flex:none;order:5}
@@ -538,30 +540,26 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
           <button id="miOpen" title="Отвори файл (Ctrl+O)"><i data-ic="folder"></i><span>Отвори<small>.html, .txt, .md, .docx, .rtf</small></span><kbd>Ctrl+O</kbd></button>
           <hr>
           <button data-save="html" title="Запази (Ctrl+S)"><i data-ic="save"></i><span>Запази<small>Пази форматирането и настройките</small></span><kbd>Ctrl+S</kbd></button>
-          <button data-save="txt"><i data-ic="text"></i><span>Запази като .txt<small>Само чист текст</small></span></button>
+          <button id="miSaveAs" title="Запази като…"><i data-ic="text"></i><span>Запази като…<small>Избор на формат</small></span></button>
         </div>
       </div>
     </div>
     <span class="grow"></span>
-    <button class="btn" id="bInstall" data-install hidden title="Инсталирай като приложение"><i data-ic="download"></i><span class="t">Инсталирай</span></button>
     <div class="grp viewtog" id="viewTog" role="group" aria-label="Показване на панели">
       <button class="btn vt" data-vt="bm" aria-pressed="true" title="Показване/скриване на отметките (B)"><i data-ic="bookmark"></i><span class="t">Отметки</span></button>
-      <button class="btn vt" data-vt="ed" aria-pressed="true" title="Показване/скриване на редактора (когато е отворен втори прозорец)"><i data-ic="edit"></i><span class="t">Редактор</span></button>
+      <button class="btn vt" data-vt="ed" aria-pressed="true" title="Показване/скриване на редактора (когато е отворен втори прозорец)"><i data-ic="edit"></i><span class="t">Редакция</span></button>
       <button class="btn vt" data-vt="set" aria-pressed="true" title="Показване/скриване на настройките (S)"><i data-ic="sliders"></i><span class="t">Настройки</span></button>
     </div>
-    <button class="btn only-narrow" id="bBmBtn" title="Отметки"><i data-ic="bookmark"></i><span class="t">Отметки</span></button>
-    <button class="btn only-narrow" id="bSetBtn" title="Настройки"><i data-ic="sliders"></i><span class="t">Настройки</span></button>
     <div class="grp" id="openWrap">
       <div class="menuwrap">
         <button class="btn" id="bRun" title="Пусни" aria-haspopup="true"><i data-ic="play"></i><span class="t" id="bRunT">Пусни</span><i data-ic="chev" style="width:14px;height:14px"></i></button>
         <div class="menu" id="runMenu" hidden>
           <button id="bStart" title="Старт на цял екран (Ctrl+Enter)"><i data-ic="play"></i><span><span id="bStartT">Цял екран</span><small id="bStartS">Ctrl+Enter</small></span></button>
           <button id="bWin"><i data-ic="external"></i><span><span id="bWinT">В прозорец</span><small id="bWinS">Отвори в прозорец</small></span></button>
-          <button id="bRemote" title="Връзка"><i data-ic="link"></i><span><span id="bRemoteT">Дистанционно</span><small id="bRemoteS">Връзка</small></span></button>
-          <button id="bConn" title="Връзка с компютъра" hidden><i data-ic="refresh"></i><span><span id="bConnT">Връзка</span><small id="bConnS">Състояние и прекъсване</small></span></button>
+          <button id="bRemote"><i data-ic="phone"></i><span><span id="bRemoteT">Дистанционно</span><small id="bRemoteS">Няма свързано устройство</small></span></button>
+          <button id="bNet"><i data-ic="link"></i><span><span id="bNetT">Мрежа</span><small id="bNetS">Връзка</small></span></button>
         </div>
       </div>
-      <button class="btn" id="bDev" title="Покажи на телефона"><i data-ic="phone"></i><span class="t" id="bDevT">Дистанционно</span></button>
     </div>
   </header>
 
@@ -605,6 +603,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
     <button class="ib play" id="rPlay" title="Старт / пауза (Space)"><i data-ic="play"></i><i class="spc" data-ic="space"></i></button>
     <div class="rg" title="Скорост"><i data-ic="gauge"></i><button class="ib" id="rSpdDn"><i data-ic="minus"></i></button><b id="rSpd">15</b><button class="ib" id="rSpdUp"><i data-ic="plus"></i></button></div>
     <div class="rg" title="Размер на текста"><i data-ic="type"></i><button class="ib" id="rFsDn"><i data-ic="minus"></i></button><b id="rFs">64</b><button class="ib" id="rFsUp"><i data-ic="plus"></i></button></div>
+        <button class="ib" id="rFull" title="Цял екран на това устройство"><i data-ic="max"></i></button>
         <button class="ib" id="rClose" title="Затвори прозореца"><i data-ic="x"></i></button>
   </div>
 </div>
@@ -695,6 +694,18 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
   </div>
 </div>
 
+<div id="saveAsModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="saTitle">
+  <div class="modal-card rm-card">
+    <header><b id="saTitle">Запази като</b><button class="ib" id="saClose" title="Затвори"><i data-ic="x"></i></button></header>
+    <div class="modal-body">
+      <div class="rm-row" style="flex-direction:column">
+        <button class="btn" data-save="html" type="button"><i data-ic="save"></i><span>HTML с форматирането и настройките</span></button>
+        <button class="btn" data-save="txt" type="button"><i data-ic="text"></i><span>Чист текст (.txt)</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="remoteModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="rmTitle">
   <div class="modal-card rm-card">
     <header><b id="rmTitle">Дистанционно управление</b><button class="ib" id="rmClose" title="Затвори"><i data-ic="x"></i></button></header>
@@ -778,7 +789,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
 <h4>Бързо начало</h4>
 <ol>
 <li>Напишете или поставете текста в редактора. Форматирането от Word, Google Docs и уеб страници се запазва.</li>
-<li>Натиснете <b>Пусни</b> и изберете <b>Цял екран</b>, за да четете на този екран, или <b>В прозорец</b>, за да четете във втори прозорец, например на втори монитор. <b>Дистанционно</b> отваря връзката с телефон или компютър. Когато вече е свързано, показва или затваря прозореца на другото устройство.</li>
+<li>Натиснете <b>Пусни</b> и изберете <b>Цял екран</b>, за да четете на този екран, или <b>В прозорец</b>, за да четете във втори прозорец, например на втори монитор. <b>Дистанционно</b> показва текста на свързаното устройство (на телефона или на компютъра), а <b>Мрежа</b> отваря връзката между устройствата: QR код, адрес и състояние.</li>
 <li>Space пуска и спира движението. Стрелките променят скоростта, а + и − размера на буквите.</li>
 <li>Esc или E ви връща в редактора.</li>
 </ol>
@@ -841,7 +852,7 @@ body.viewer .top,body.viewer .fmt,body.viewer #bmSide,body.viewer .stagewrap,bod
 <h4>Quick start</h4>
 <ol>
 <li>Type or paste your text in the editor. Formatting from Word, Google Docs and web pages is kept.</li>
-<li>Press <b>Start</b> and choose <b>Full screen</b> to read on this screen, or <b>In a window</b> to read in a second window, for example on a second monitor. <b>Remote</b> opens the link with a phone or computer. When already connected, it shows or closes the window on the other device.</li>
+<li>Press <b>Start</b> and choose <b>Full screen</b> to read on this screen, or <b>In a window</b> to read in a second window, for example on a second monitor. <b>Remote</b> shows the text on the connected device (the phone or the computer), and <b>Network</b> opens the link between the devices: QR code, address and status.</li>
 <li>Space plays and pauses. The arrow keys change the speed, and + and − change the letter size.</li>
 <li>Esc or E takes you back to the editor.</li>
 </ol>
@@ -1210,7 +1221,7 @@ const EN={
 'Без име':'Untitled',
 'Още няма отметки. Започнете ред с ~ и заглавие.':'No bookmarks yet. Start a line with ~ and a title.',
 'Старт от тук':'Start from here',
-'Редактирай отметката':'Edit bookmark','Състояние и прекъсване':'Status and disconnect','Проверка на правопис':'Spell check','Подчертава грешните думи в редактора (вградената проверка на системата)':'Underlines misspelled words in the editor (system spell check)','Пусни':'Start','В прозорец':'In a window',
+'Редактирай отметката':'Edit bookmark','Цял екран на това устройство':'Full screen on this device','Редакция':'Edit','Мрежа':'Network','Запази като…':'Save as…','Избор на формат':'Choose a format','Запази като':'Save as','HTML с форматирането и настройките':'HTML with formatting and settings','Чист текст (.txt)':'Plain text (.txt)','Няма свързан телефон':'No phone connected','Няма свързан компютър':'No computer connected','Свържете компютър, за да показвате текста на него.':'Connect a computer to show the text on it.','Състояние и прекъсване':'Status and disconnect','Проверка на правопис':'Spell check','Подчертава грешните думи в редактора (вградената проверка на системата)':'Underlines misspelled words in the editor (system spell check)','Пусни':'Start','В прозорец':'In a window',
 'Връзка':'Link','Връзка с телефон':'Link with a phone','Връзка с компютър':'Link with a computer',
 'Покажи на телефона':'Show on the phone','Затвори на телефона':'Close on the phone','На този екран':'On this screen',
 'Свържете телефон, за да показвате текста на него':'Link a phone to show the text on it',
@@ -1753,9 +1764,17 @@ function drawer(which){
   $('#bmSide').classList.toggle('open',which==='bm');
   if(!reading)settings.classList.toggle('open',which==='set');
   document.body.classList.toggle('drawer',!!which);
+  syncPanelBtns();
 }
-$('#bBmBtn').addEventListener('click',()=>{if(rcOn())setRcv('bm');else drawer($('#bmSide').classList.contains('open')?null:'bm')});
-$('#bSetBtn').addEventListener('click',()=>{if(rcOn())setRcv('set');else drawer(settings.classList.contains('open')?null:'set')});
+/* малък екран: бутоните Отметки, Редакция, Настройки избират кой панел е отворен */
+function syncPanelBtns(){
+  try{
+    if(!matchMedia('(max-width:900px)').matches)return;
+    const rc=rcOn(),e=rc?rcEff():'',bm=rc?e==='bm':$('#bmSide').classList.contains('open'),st=rc?e==='set':settings.classList.contains('open');
+    const on={bm,set:st,ed:rc?e==='ed':(!bm&&!st)};
+    $$('[data-vt]').forEach(b=>{b.setAttribute('aria-pressed',String(on[b.dataset.vt]));b.disabled=false});
+  }catch(e){}
+}
 $('#scrim').addEventListener('click',()=>drawer(null));
 $('#bCloseBm').addEventListener('click',()=>drawer(null));
 window.addEventListener('resize',()=>{if(innerWidth>900&&!reading)drawer(null)});
@@ -1763,6 +1782,9 @@ $('#themeSel').addEventListener('change',e=>set('theme',e.target.value));
 $('#cAcc').addEventListener('input',e=>set('accent',e.target.value));
 $('#cUiBg').addEventListener('input',e=>set('uiBg',e.target.value));
 $('#uiReset').addEventListener('click',()=>{S.accent='';S.uiBg='';saveS();applyStyles();syncUI()});
+const topBar=$('.top');
+const setTbh=()=>document.documentElement.style.setProperty('--tbh',(topBar.offsetHeight||63)+'px');
+setTbh();window.addEventListener('resize',setTbh);if(window.ResizeObserver)new ResizeObserver(setTbh).observe(topBar);
 let helpFocus=null;
 function toggleHelp(force){
   const m=$('#helpModal'),on=force!==undefined?force:m.hidden;
@@ -1799,12 +1821,16 @@ async function saveFile(name,data){
   }catch(e){toast(t('Запазването не успя в този прозорец.'),true)}
 }
 function doSave(kind){
-  $('#fileMenu').hidden=true;
+  $('#fileMenu').hidden=true;$('#saveAsModal').hidden=true;
   if(kind==='txt')saveFile(docTitle()+'.txt',editor.innerText.replace(/\n{3,}/g,'\n\n'));
   else saveFile(docTitle()+'.html',buildHtml());
 }
 $('#bFile').addEventListener('click',e=>{e.stopPropagation();$('#runMenu').hidden=true;const m=$('#fileMenu');m.hidden=!m.hidden});
 $$('[data-save]').forEach(b=>b.addEventListener('click',()=>doSave(b.dataset.save)));
+$('#miSaveAs').addEventListener('click',()=>{$('#fileMenu').hidden=true;$('#saveAsModal').hidden=false});
+$('#saClose').addEventListener('click',()=>{$('#saveAsModal').hidden=true});
+$('#saveAsModal').addEventListener('mousedown',e=>{if(e.target===e.currentTarget)e.currentTarget.hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#saveAsModal').hidden){e.preventDefault();$('#saveAsModal').hidden=true}},true);
 
 /* ---------- Телепромптър ---------- */
 const pxps=()=>S.speed*0.06*S.fs;
@@ -1930,12 +1956,13 @@ window.addEventListener('resize',()=>{if(reading){const f=maxPos?pos/maxPos:0;la
 
 const closeRun=()=>{$('#runMenu').hidden=true};
 $('#bRun').addEventListener('click',e=>{e.stopPropagation();$$('.menuwrap .menu').forEach(m=>{if(m.id!=='runMenu')m.hidden=true});const m=$('#runMenu');m.hidden=!m.hidden});
-$('#bStart').addEventListener('click',()=>{
-  closeRun();
-  /* свързан с компютъра: четем на този екран, а компютърът управлява */
+/* цял екран на това устройство; свързан Android чете на телефона, а компютърът управлява */
+const fullHere=()=>{
   const n=(!IS_TAURI&&netApi)?netApi.state():null;
   if(n&&n.on&&n.ok)netApi.startRv();else startReading(true);
-});
+};
+$('#bStart').addEventListener('click',()=>{closeRun();fullHere()});
+
 $('#bWin').addEventListener('click',()=>{closeRun();togglePopup()});
 try{screen.addEventListener('change',updateOpenLabel)}catch(e){}
 $('#hPlay').addEventListener('click',()=>togglePlay(true));
@@ -2131,24 +2158,28 @@ function togglePopup(){
 var netApi=null;   /* вързва се към мрежовия клиент, когато е създаден */
 function updateOpenLabel(){
   const phoneV=IS_TAURI&&!VIEWER&&hostApi().viewing(),open=popupOpen()&&!phoneV;
-  const winT=netOnFlag?t(open?'Затвори на компютъра':'Покажи на компютъра'):t(open?'Затвори прозореца':(hasSecond()?'Отвори на втория екран':'Отвори в прозорец')),linkT=t(IS_TAURI?'Връзка с телефон':'Връзка с компютър');
-  $('#bWin').classList.toggle('on',open);$('#bWin').setAttribute('aria-pressed',String(open));
-  setTxt($('#bRunT'),t('Пусни'));if($('#bRun').title!==t('Пусни'))$('#bRun').title=t('Пусни');
   const net=(!IS_TAURI&&!VIEWER&&netApi)?netApi.state():null,linked=!!(net&&net.on);
-  setTxt($('#bStartT'),t('Цял екран'));setTxt($('#bStartS'),linked?t('На този екран'):'Ctrl+Enter');
-  setTxt($('#bWinT'),t('В прозорец'));setTxt($('#bWinS'),winT);if($('#bWin').title!==winT)$('#bWin').title=winT;
-  /* Android, вече свързан с компютъра: „Дистанционно“ показва или затваря прозореца на компютъра, без нова връзка */
-  const remT=linked?winT:linkT;
-  setTxt($('#bRemoteT'),t('Дистанционно'));setTxt($('#bRemoteS'),remT);if($('#bRemote').title!==remT)$('#bRemote').title=remT;
-  $('#bConn').hidden=!linked;setTxt($('#bConnT'),t('Връзка'));setTxt($('#bConnS'),t('Състояние и прекъсване'));
+  const setT=(id,v)=>setTxt($(id),v);
+  setT('#bRunT',t('Пусни'));if($('#bRun').title!==t('Пусни'))$('#bRun').title=t('Пусни');
+  /* Цял екран: чете на това устройство (свързан Android: чете на телефона, компютърът управлява) */
+  setT('#bStartT',t('Цял екран'));setT('#bStartS',linked?t('На този екран'):'Ctrl+Enter');
+  /* В прозорец: втори прозорец за четене (само Windows и браузър на голям екран) */
+  const winT=t(open?'Затвори прозореца':(hasSecond()?'Отвори на втория екран':'Отвори в прозорец'));
+  $('#bWin').classList.toggle('on',open);$('#bWin').setAttribute('aria-pressed',String(open));
+  setT('#bWinT',t('В прозорец'));setT('#bWinS',winT);if($('#bWin').title!==winT)$('#bWin').title=winT;
+  /* Дистанционно: показва текста на другото устройство (Windows: телефон, Android: компютър) */
+  let remS,remOn=false;
   if(IS_TAURI&&!VIEWER){
-    /* „Покажи на телефона“: същото като „Покажи на компютъра“ в Android приложението */
     const h=hostApi(),ds=h.viewing()?2:h.linked()?1:0;
-    const dT=t(ds===2?'Затвори на телефона':'Покажи на телефона');
-    setTxt($('#bDevT'),t('Дистанционно'));
-    const dTitle=ds===0?t('Свържете телефон, за да показвате текста на него'):dT;if($('#bDev').title!==dTitle)$('#bDev').title=dTitle;
-    $('#bDev').classList.toggle('on',ds===2);$('#bDev').classList.toggle('idle',ds===0);$('#bDev').setAttribute('aria-pressed',String(ds===2));
-  }
+    remOn=ds===2;remS=t(ds===2?'Затвори на телефона':ds===1?'Покажи на телефона':'Няма свързан телефон');
+  }else if(linked){
+    remOn=popupOpen();remS=t(remOn?'Затвори на компютъра':'Покажи на компютъра');
+  }else remS=t('Няма свързан компютър');
+  $('#bRemote').classList.toggle('on',remOn);
+  setT('#bRemoteT',t('Дистанционно'));setT('#bRemoteS',remS);if($('#bRemote').title!==remS)$('#bRemote').title=remS;
+  /* Мрежа: връзка между устройствата (QR код, адрес, състояние) */
+  const netT=t(IS_TAURI?'Връзка с телефон':'Връзка с компютър');
+  setT('#bNetT',t('Мрежа'));setT('#bNetS',netT);if($('#bNet').title!==netT)$('#bNet').title=netT;
 }
 /* преглед на втория прозорец (без огледало, за да чете операторът заедно с водещия) */
 const pv=$('#pv'),pvWrap=$('#pvWrap'),pvStage=$('#pvStage'),pvScroller=$('#pvScroller'),pvText=$('#pvText');
@@ -2394,21 +2425,33 @@ function initViewer(){
 let VT={bm:true,ed:true,set:true,ctl:true},autoEd=false;
 try{Object.assign(VT,JSON.parse(localStorage.getItem('tp.view')||'{}'))}catch(e){}
 function applyView(){
-  const on=remoteOn()&&!VIEWER,rc=document.body.classList.contains('rc'),eff=rc?rcv==='ed':(VT.ed||!on);
+  const on=remoteOn()&&!VIEWER,rc=document.body.classList.contains('rc'),eff=rc?rcEff()==='ed':(VT.ed||!on);
   document.body.classList.toggle('hide-bm',!rc&&!VT.bm);
   document.body.classList.toggle('hide-set',!rc&&!VT.set);
   document.body.classList.toggle('ctl-off',!VT.ctl);
   document.body.classList.toggle('ed-off',!eff);
   const sw=pvWrap.closest('.stagewrap');sw.classList.toggle('pvfull',on&&(!eff||rc));   /* при свързан компютър превюто винаги запълва своя панел */
-  $$('[data-vt]').forEach(b=>{const k=b.dataset.vt;b.setAttribute('aria-pressed',String(k==='ed'?eff:VT[k]));if(k==='ed')b.disabled=!on});
+  if(narrowMQ.matches)syncPanelBtns();
+  else $$('[data-vt]').forEach(b=>{const k=b.dataset.vt;b.setAttribute('aria-pressed',String(k==='ed'?eff:VT[k]));if(k==='ed')b.disabled=!on});
   if(pvRendered)layoutPreview();
 }
 function toggleVT(k){VT[k]=!VT[k];if(k==='ed')autoEd=false;saveView();applyView()}
 function saveView(){try{localStorage.setItem('tp.view',JSON.stringify(VT))}catch(e){}}
-$$('[data-vt]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.vt;VT[k]=!VT[k];if(k==='ed')autoEd=false;saveView();applyView()}));
+$$('[data-vt]').forEach(b=>b.addEventListener('click',()=>{
+  const k=b.dataset.vt;
+  if(narrowMQ.matches){
+    if(rcOn())setRcv(k);
+    else if(k==='ed')drawer(null);
+    else drawer((k==='bm'?$('#bmSide'):settings).classList.contains('open')?null:k);
+    return;
+  }
+  VT[k]=!VT[k];if(k==='ed')autoEd=false;saveView();applyView();
+}));
 /* малък екран + свързано дистанционно: горе превю/редактор/отметки/настройки, долу контролите */
 const narrowMQ=matchMedia('(max-width:900px)');
-let rcv='ed',rcWas=false;
+/* rcv: какво е отворено в горната половина; „pv“ = само превюто и управлението (редакторът е затворен, както в Windows с втори прозорец) */
+let rcv='pv',rcWas=false,rcLiveWas=false;
+const rcEff=()=>(rcv==='pv'&&!remoteOn())?'ed':rcv;   /* без отворен прозорец на компютъра няма превю и показваме редактора */
 const rcOn=()=>!VIEWER&&narrowMQ.matches&&(netOnFlag||remoteOn());
 function applyRc(){
   const on=rcOn(),live=on&&remoteOn(),b=document.body;
@@ -2416,16 +2459,17 @@ function applyRc(){
   if(on!==rcWas){
     rcWas=on;
     const dock=$('#rcDock'),rb=$('.rbar'),pg=$('#rProg');
-    if(on){rcv='ed';drawer(null);dock.hidden=false;dock.prepend(pg,rb)}
+    if(on){rcv='pv';drawer(null);dock.hidden=false;dock.prepend(pg,rb)}
     else{$('#remote').append(pg,rb);dock.hidden=true}
   }
+  if(live!==rcLiveWas){rcLiveWas=live;if(live)rcv='pv'}   /* прозорецът на компютъра се отвори: редакторът се затваря */
   b.classList.toggle('rc',on);b.classList.toggle('rcLive',live);
-  if(on)b.dataset.rcv=rcv;else b.removeAttribute('data-rcv');
+  if(on)b.dataset.rcv=rcEff();else b.removeAttribute('data-rcv');
   if(changed){applyView();toolbarEnd()}
 }
 function toolbarEnd(){const tp=$('.top');if(tp)requestAnimationFrame(()=>{tp.scrollLeft=tp.scrollWidth})}
 toolbarEnd();
-function setRcv(v){rcv=(rcv===v)?'ed':v;applyRc();applyView()}   /* още едно натискане връща редактора */
+function setRcv(v){rcv=(rcv===v)?'pv':v;applyRc();applyView()}   /* още едно натискане затваря панела */
 $('#bCloseBm').addEventListener('click',()=>{if(rcOn()&&rcv==='bm')setRcv('bm')});
 $('#bCloseSet').addEventListener('click',()=>{if(rcOn()&&rcv==='set')setRcv('set')});
 if(narrowMQ.addEventListener)narrowMQ.addEventListener('change',applyRc);
@@ -2437,7 +2481,7 @@ if(!IS_TAURI&&!VIEWER){
     if(rvOn)return ()=>NETC.stopRv(true);
     if(reading)return ()=>stopReading();
     if(document.body.classList.contains('drawer'))return ()=>drawer(null);
-    if(rcOn()&&rcv!=='ed')return ()=>{rcv='ed';applyRc();applyView()};
+    if(rcOn()&&rcv!=='pv')return ()=>{rcv='pv';applyRc();applyView()};
     return null;
   };
   const syncNav=()=>{
@@ -2490,6 +2534,7 @@ $('#rFsDn').addEventListener('click',()=>bump('fs',-4));
 $('#rFsUp').addEventListener('click',()=>bump('fs',4));
 $('#rProg').addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect();post({type:'cmd',cmd:'seek',arg:(e.clientX-r.left)/r.width})});
 $('#rClose').addEventListener('click',closePopup);
+$('#rFull').addEventListener('click',fullHere);
 $('#remote').addEventListener('mousedown',e=>{if(e.target.closest('button'))e.preventDefault()});
 document.addEventListener('pointerdown',e=>{
   if(VIEWER)return;
@@ -2620,18 +2665,17 @@ function openRemote(v){
 }
 $('#bRemote').addEventListener('click',()=>{
   closeRun();
-  const n=(!IS_TAURI&&netApi)?netApi.state():null;
-  if(n&&n.on){if(popupOpen())closePopup();else netApi.open();return}   /* вече свързан: само показваме или затваряме прозореца на компютъра */
-  openRemote(true);
+  if(IS_TAURI){
+    const h=hostApi();
+    if(h.viewing()){closePopup();return}
+    if(!h.linked()){toast(t('Свържете телефон: сканирайте QR кода.'));openRemote(true);return}
+    h.showOnPhone();updateOpenLabel();return;
+  }
+  const n=netApi?netApi.state():null;
+  if(n&&n.on){if(popupOpen())closePopup();else netApi.open();return}   /* свързан: показваме или затваряме прозореца на компютъра */
+  toast(t('Свържете компютър, за да показвате текста на него.'));openRemote(true);
 });
-$('#bConn').addEventListener('click',()=>{closeRun();openRemote(true)});
-$('#bDev').addEventListener('click',()=>{
-  if(!IS_TAURI)return;
-  const h=hostApi();
-  if(h.viewing()){closePopup();return}
-  if(!h.linked()){toast(t('Свържете телефон: сканирайте QR кода.'));openRemote(true);return}
-  h.showOnPhone();updateOpenLabel();
-});
+$('#bNet').addEventListener('click',()=>{closeRun();openRemote(true)});
 $('#rmClose').addEventListener('click',()=>openRemote(false));
 rmModal.addEventListener('mousedown',e=>{if(e.target===e.currentTarget)openRemote(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!rmModal.hidden){e.preventDefault();openRemote(false)}},true);
@@ -2743,7 +2787,7 @@ const HOST=(()=>{
   const appAlive=()=>on&&rx.rxAgo!=null&&rx.rxAgo<4000;
   const webAlive=()=>on&&rx.webAgo!=null&&rx.webAgo<3000;
   function status(){
-    const b=$('#bRemote');
+    const b=$('#bNet');
     b.classList.toggle('on',appAlive()||webAlive());
     const el=$('#rmHostSt');if(!on){el.textContent='';return}
     const ok=appAlive()||webAlive();
@@ -2990,7 +3034,7 @@ const NETC=(()=>{
   }
   function ui(){
     document.body.classList.toggle('netOn',NET.on);
-    const b=$('#bRemote');b.classList.toggle('on',NET.on&&NET.ok);b.classList.toggle('warn',NET.on&&!NET.ok);
+    const b=$('#bNet');b.classList.toggle('on',NET.on&&NET.ok);b.classList.toggle('warn',NET.on&&!NET.ok);
     const st=$('#rmCliSt');
     if(st){
       st.className='rm-status '+(NET.on?(NET.ok?'ok':'warn'):'');
