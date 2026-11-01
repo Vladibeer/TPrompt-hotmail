@@ -25,12 +25,12 @@ jobs:
         shell: bash
         run: |
           mkdir -p out
-          cp src-tauri/target/release/bundle/nsis/*.exe out/
+          cp src-tauri/target/release/bundle/nsis/*.exe out/TPrompt-Hotmail.exe
           ls -la out
       - uses: actions/upload-artifact@v4
         with:
-          name: TPrompt-windows
-          path: out/*.exe
+          name: TPrompt-Hotmail-windows
+          path: out/TPrompt-Hotmail.exe
 
   android:
     runs-on: ubuntu-24.04
@@ -55,10 +55,14 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
+      - name: Име на файла
+        run: |
+          mkdir -p out
+          cp android/app/build/outputs/apk/debug/app-debug.apk out/TPrompt-Hotmail.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: TPrompt-android
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: TPrompt-Hotmail-android
+          path: out/TPrompt-Hotmail.apk
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -67,12 +71,9 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with: { path: out }
-      - name: Преименуване
-        run: |
-          cp out/TPrompt-android/app-debug.apk out/TPrompt-${GITHUB_REF_NAME}.apk
       - uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
           files: |
-            out/TPrompt-windows/*.exe
-            out/TPrompt-*.apk
+            out/TPrompt-Hotmail-windows/TPrompt-Hotmail.exe
+            out/TPrompt-Hotmail-android/TPrompt-Hotmail.apk
