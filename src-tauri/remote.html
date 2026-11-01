@@ -213,7 +213,7 @@ svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-lin
   }
   $('play').onclick=function(){send(st.mode==='edit'?'start':'play')};
   $('spdDn').onclick=function(){send('speed',-5)};$('spdUp').onclick=function(){send('speed',5)};
-  $('fsDn').onclick=function(){send('fs',-4)};$('fsUp').onclick=function(){send('fs',4)};
+  $('fsDn').onclick=function(){send('fs',-1)};$('fsUp').onclick=function(){send('fs',1)};
   $('home').onclick=function(){send('home')};$('prev').onclick=function(){send('prev')};$('next').onclick=function(){send('next')};
   $('stop').onclick=function(){send('stop')};
   var seeking=false,seekT=0;
